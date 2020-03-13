@@ -12,3 +12,4 @@ const PopUpComponent = ({ item, photos, reviews }) => (
 );
 
 export default PopUpComponent;
+
