@@ -20,6 +20,7 @@ module.exports = {
         "react"
     ],
     "rules": {
-        "react/prop-types": [0, {skipUndeclared: true}]
-    }
+        "react/prop-types": [0, {skipUndeclared: true}],
+        "react/jsx-key": [0, {"checkFragmentShorthand": false }]
+        }
 };

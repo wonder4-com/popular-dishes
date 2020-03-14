@@ -11,18 +11,18 @@ class Review extends React.Component {
             text: this.props.data.text,
             readMore: false
         };
-        this.handleClick = this.handleClick.bind(this);
+        this.onClickHandler = this.onClickHandler.bind(this);
     }
 
-    handleClick() {
-
+    onClickHandler(e) {
+        this.setState({readMore: !this.state.readMore })
     }
     render () {
         return (
             <div> 
             {this.props.data.name}
-            <div> { (this.state.readMore) ? this.state.text: this.state.text.split(" ").slice(0, this.state.text.split(" ").length).join(" ") }</div>
-            <button onClick={this.handleClick}> {(this.state.readMore) ? 'read less': 'read more'} </button>
+            <div id={this.props.data.user}>{(this.state.readMore) ? this.state.text: this.state.text.split(" ").slice(0, Math.floor(this.state.text.split(" ").length/2)).join(" ") }</div>
+            <button onClick={this.onClickHandler}> {(this.state.readMore) ? 'read less': 'read more'} </button>
             </div>
         )
     }

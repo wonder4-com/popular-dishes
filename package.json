@@ -9,7 +9,9 @@
   "description": "repo for the popular dishes component",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "nodemon ./server/index.js",
+    "build:react": "webpack -d --watch"
   },
   "repository": {
     "type": "git",
