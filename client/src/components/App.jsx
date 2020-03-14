@@ -103,7 +103,8 @@ class App extends React.Component {
         super(props);
         this.state = {
             items: [],
-            restaurant_id: null
+            restaurant_id: null,
+            doneLoading: false
         };
         this.getItems = this.getItems.bind(this);
         this.getPhotos = this.getPhotos.bind(this);
@@ -138,15 +139,25 @@ class App extends React.Component {
                 this.setState({restaurant_id: parseInt(response.data)}); // the restaurant we are on
                 this.getItems(response.data); // with the restaurant_id get the popular items
             })
+            .then(() => {
+                this.setState({doneLoading: true});
+            })
     }
 
 
     render() {
+        if (this.state.doneLoading) {
         return (
-            <div>
+            <div className="wrapper" >
                 <PopularDishList popularDishes={this.state.items} />
             </div>
-        )
+            )
+        } else {
+            return (
+                <div> 
+                </div>
+            )
+        }
     }
 }
 

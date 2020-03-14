@@ -43,30 +43,28 @@ class PopularDishEntry extends React.Component {
     render() {
         if (this.state.visiblePopUp) {
             return (
-                <div>
-                    <p>{this.props.item.name}</p>
-                    <img src={this.props.photos[0].url} width="200"></img>
-                    <div>
-                        <span>{this.props.photos.length} Photos</span>
+                <div className="item-box">
+                    <div className="inner-box">
+                        <img src={(this.props.photos.length > 0) ? this.props.photos[0].url : 'https://us.123rf.com/450wm/pavelstasevich/pavelstasevich1811/pavelstasevich181101065/112815953-stock-vector-no-image-available-icon-flat-vector.jpg?ver=6'} width="250"></img>
+                        <p>{this.props.item.dish_name}</p>
+                        <p> {this.props.photos.length} Photos {this.props.item.review_count} Reviews </p>
                     </div>
-                    <div>
-                        <Modal>
-                            <div className="modal"> 
-                                <PopUpComponent item={this.props.item} photos={this.props.photos} />
-                                <button id="close-button" onClick={this.onClickHandler}> Close X </button>
-                            </div>
-                        </Modal>
-                    </div>
+                    <Modal>
+                        <div className="modal">
+                            <PopUpComponent item={this.props.item} photos={this.props.photos} />
+                            <button id="close-button" onClick={this.onClickHandler}> Close X </button>
+                        </div>
+                    </Modal>
                 </div>
             )
         } else {
             return (
-                <div onClick={this.onClickHandler}>
-                    <p>{this.props.item.name}</p>
-                    <img src={this.props.photos[0].url} width="200"></img>
-                    <br>
-                    </br>
-                    <span>{this.props.photos.length} Photos</span>
+                <div className="item-box" onClick={this.onClickHandler}>
+                    <div className="inner-box">
+                        <img src={(this.props.photos.length > 0) ? this.props.photos[0].url : 'https://us.123rf.com/450wm/pavelstasevich/pavelstasevich1811/pavelstasevich181101065/112815953-stock-vector-no-image-available-icon-flat-vector.jpg?ver=6'} width="250"></img>
+                        <p>{this.props.item.dish_name}</p>
+                        <p> {this.props.photos.length} Photos {this.props.item.review_count} Reviews </p>
+                    </div>
                 </div>
             )
         }

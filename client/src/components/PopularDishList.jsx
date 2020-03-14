@@ -15,24 +15,24 @@ class PopularDishList extends React.Component {
     onClickHandler(e) {
         const dishes = this.props.popularDishes;
         if (e.target.className === 'right') {
+            this.setState({ leftButton: true });
             if (dishes.length - 3 > this.state.currentView + 3) {
                 console.log('on right click', this.state.currentView + 3);
                 this.setState({ currentView: this.state.currentView + 3 });
-                this.setState({ leftButton: true });
             } else {
                 this.setState({ rightButton: false });
                 this.setState({ currentView: dishes.length - 3 });
-                console.log('on right click', dishes.length - 3);
+                console.log('on right click', dishes.length - 3 );
             }
-
+            
         } else {
-
+            
             if (this.state.currentView - 3 > 3) {
                 console.log('on left click', this.state.currentView - 3);
-                this.setState({ currentView: this.state.currentView - 3 });
-                this.setState({ rightButton: true });
+                this.setState({currentView: this.state.currentView - 3});
+                this.setState({rightButton: true});
             } else {
-                this.setState({ currentView: 0 })
+                this.setState({currentView: 0})
                 console.log('on left click', 0);
                 this.setState({ rightButton: true });
                 this.setState({ leftButton: false });
@@ -42,24 +42,27 @@ class PopularDishList extends React.Component {
 
 
     render() {
-        if (this.props.popularDishes.length < 4) {
+        if (this.props.popularDishes.length > 3) {
             return (
-                this.props.popularDishes.slice(this.state.currentView, this.state.currentView + 3).map((popularDish) => (
-                    <div>
-                        <PopularDishEntry item={popularDish.item} photos={popularDish.photos} />
-                    </div>
-                ))
+                <div className="wrapper">
+                    {(this.state.leftButton) ? <button onClick={this.onClickHandler} className="left"> left </button> : null }
+                    {this.props.popularDishes.slice(this.state.currentView, this.state.currentView + 3).map((popularDish) => (
+                        <div className="slide">
+                            <PopularDishEntry item={popularDish.item} photos={popularDish.photos} />
+                        </div>
+                    ))}
+                    {(this.state.rightButton) ? <button onClick={this.onClickHandler} className="right"> right </button> : null}
+                </div>
             )
+
         } else {
             return (
                 <div>
-                    {(this.state.leftButton) ? <button onClick={this.onClickHandler} className="left"> left </button> : null}
                     {this.props.popularDishes.slice(this.state.currentView, this.state.currentView + 3).map((popularDish) => (
                         <div>
                             <PopularDishEntry item={popularDish.item} photos={popularDish.photos} />
                         </div>
                     ))}
-                    { (this.state.rightButton) ? <button onClick={this.onClickHandler} className="right"> right </button> : null}
                 </div>
             )
         }

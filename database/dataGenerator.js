@@ -12,7 +12,7 @@ var maxDishes = 10;
 var maxReviews = 10;
 
 // max number of photos per dish
-var maxPhotos = 20;
+var maxPhotos = 40;
 
 // function for making one company
 const makeCompany = () => {
