@@ -48,12 +48,11 @@ class PopularDishEntry extends React.Component {
                     <img src={this.props.photos[0].url} width="200"></img>
                     <div>
                         <span>{this.props.photos.length} Photos</span>
-                        <span>{this.props.reviews.length} Reviews</span>
                     </div>
                     <div>
                         <Modal>
                             <div className="modal"> 
-                                <PopUpComponent item={this.props.item} photos={this.props.photos} reviews={this.props.reviews} />
+                                <PopUpComponent item={this.props.item} photos={this.props.photos} />
                                 <button id="close-button" onClick={this.onClickHandler}> Close X </button>
                             </div>
                         </Modal>
@@ -68,7 +67,6 @@ class PopularDishEntry extends React.Component {
                     <br>
                     </br>
                     <span>{this.props.photos.length} Photos</span>
-                    <span>{this.props.reviews.length} Reviews</span>
                 </div>
             )
         }

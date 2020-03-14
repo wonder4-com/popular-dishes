@@ -24,7 +24,7 @@ CREATE TABLE PopularDishes (
 
 CREATE TABLE photos (
     photo_id int NOT NULL AUTO_INCREMENT,
-    url varchar (50) NOT NULL,
+    url varchar (200) NOT NULL,
     caption varchar (1000) NOT NULL,
     popular_dish int,
     PRIMARY KEY(photo_id),

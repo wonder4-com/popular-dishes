@@ -102,15 +102,43 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            items: samplePopularDishes
+            items: [],
+            restaurant_id: null
         };
+        this.getItems = this.getItems.bind(this);
+        this.getPhotos = this.getPhotos.bind(this);
     }
 
-    getPosts() {
+    getPhotos(item, dish_id) {
+        axios.get('/getPhotos', { params: { dish_id: dish_id } })
+        .then(response => {
+            var obj = {}
+            obj.item = item;
+            obj.photos = response.data;
+            this.setState({items: this.state.items.concat(obj)});
+        });
+    }
 
+    getItems(number) {
+        axios.get('/getItems', {params : { restaurant_id: number }})
+        .then((response) => {
+            var items = response.data;
+            var arr = []
+            for (var i = 0; i < items.length; i++) {
+                this.getPhotos(items[i],items[i].dish_id)
+            }
+            console.log(arr)
+        });
     }
 
 
+    componentDidMount () {
+        axios.get('/getCompany')
+            .then((response) => { 
+                this.setState({restaurant_id: parseInt(response.data)}); // the restaurant we are on
+                this.getItems(response.data); // with the restaurant_id get the popular items
+            })
+    }
 
 
     render() {

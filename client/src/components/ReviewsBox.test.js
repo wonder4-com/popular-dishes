@@ -31,9 +31,9 @@ describe('ReviewsBox Unit Tests', () => {
 
         test('ReviewsBox should have three children', () => {
 
-            const wrapper = shallow(<ReviewsBox reviews={sampleData} />);
+            const wrapper = mount(<ReviewsBox reviews={sampleData} />);
 
-            expect(wrapper.find(Review)).toHaveLength(3);
+            expect(wrapper.find('button')).toHaveLength(10);
         });
     });
 
