@@ -55,6 +55,11 @@ const makePhoto = (addPhoto, photoParams) => {
     })
 };
 
+//function for making one review;
+const makeReviews = (dish_name, reviewParams) => {
+
+}
+
 const generateData = () => {
     for (var i = 0; i < numberOfCompanies; i++) {
         makeCompany()

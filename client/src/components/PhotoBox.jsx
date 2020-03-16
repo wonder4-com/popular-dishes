@@ -12,7 +12,7 @@ class PhotoBox extends React.Component {
     }
 
     onClickHandler(e) {
-        if (e.target.className === 'button right') {
+        if (e.target.className.includes('button right')) {
             if (this.state.currentPhoto === this.state.photos.length - 1) {
                 this.setState({ currentPhoto: 0 });
             } else {
@@ -35,8 +35,8 @@ class PhotoBox extends React.Component {
                         <img src={this.state.photos[this.state.currentPhoto].url} className="photo"></img>
                     </div>
                 </div>
-                <button onClick={this.onClickHandler} className="leftPhoto">left</button>
-                <button onClick={this.onClickHandler} className="rightPhoto">right</button>
+                <button onClick={this.onClickHandler} className="leftPhoto"></button>
+                <button onClick={this.onClickHandler} className="rightPhoto button right"></button>
                 <div className="photoCaption">
                     <div>{this.state.photos[this.state.currentPhoto].caption} </div>
                 </div>

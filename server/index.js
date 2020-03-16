@@ -7,7 +7,7 @@ const companyNumber = 2; // this is how many companies there are;
 const controller = require('./controller.js');
 const port = 3000;
 
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/', express.static(path.join(__dirname, '../client/dist/')))
@@ -34,6 +34,13 @@ app.get('/leftarrow.png', (req, res) => {
     res.sendFile('/Users/alexchung/Documents/HackReactor2020/popular-dishes/server/leftarrow.png');
 });
 
+app.get('/leftClearArrow.png', (req, res) => {
+    res.sendFile('/Users/alexchung/Documents/HackReactor2020/popular-dishes/server/leftClear.png');
+});
+
+app.get('/rightClearArrow.png', (req, res) => {
+    res.sendFile('/Users/alexchung/Documents/HackReactor2020/popular-dishes/server/clear.png');
+});
 
 
 app.listen(port, () => {

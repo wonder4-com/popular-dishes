@@ -25,7 +25,6 @@ h3 {
   justify-content: center;
   }
 
-
 .slider {
   left: 50px;
   float: left;
@@ -151,16 +150,41 @@ button {
 
 .rightPhoto {
   position: absolute;
-  margin-top: 300px;
+  mix-blend-mode: multiply;
+  margin-top: 245px;
   margin-left: 50px;
   z-index: 998;
+  background-image: url('/rightClearArrow.png');
+  background-position: center;
+  background-size: 200px 200px;
+  height: 100px;
+  width: 50px;
+  outline-width: 0;
+  border: none;
 }
+
+.rightPhoto:hover {
+  cursor: pointer;
+}
+
+.leftPhoto:hover {
+  cursor: pointer;
+}
+
 
 .leftPhoto {
   position: absolute;
-  margin-top: 300px;
-  margin-left: -680px;
+  mix-blend-mode: multiply;
+  margin-top: 245px;
+  margin-left: -700px;
   z-index: 1000;
+  background-image: url('/leftClearArrow.png');
+  background-position: center;
+  background-size: 200px 200px;
+  height: 100px;
+  width: 50px;
+  outline-width: 0;
+  border: none;
 }
 
 .photoCaption {
@@ -190,5 +214,25 @@ button {
 
 .smallDescription {
   position: fixed;
-  margin-left: 100px;
+  margin-left: 120px;
+  font-size: 15px;
+  margin-top: 20px;
+  line-break: none;
+}
+
+#dishName {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+#dishPrice {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.smallDescriptionBorder {
+  white-space: normal;
+  width: 260px;
+  height: 535px;
+  overflow: scroll;
 }

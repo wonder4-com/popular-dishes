@@ -1,10 +1,13 @@
 import React from 'react';
 
-const SmallDescription = ({item}) => (
-    <div> 
-        <h1>{item.name}</h1>
-        <h3>${item.price}</h3>
-        <h3>{item.description}</h3>
+const SmallDescription = ({ item }) => (
+    <div>
+        <div id="dishName">{item.dish_name}</div>
+        <div id="dishPrice">${item.price}.00</div>
+        <div className="smallDescriptionBorder">
+            <p>{item.description}</p>
+            
+        </div>
     </div>
 )
 

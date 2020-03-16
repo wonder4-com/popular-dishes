@@ -43,12 +43,7 @@ class PopularDishList extends React.Component {
 
     onClickHandler(e) {
         if (e.target.id === 'goRight') {
-            // this.setState({ scrollPosition: this.state.scrollPosition + 630 });
-            // $('.slide').addClass('moveRight')
-            // $('.slide').offset;
-            // $('.slide').removeClass('moveRight');
             $('.slider').animate({ scrollLeft: "+=630" }, 100);
-            // this.setState({scrollPosition: this.state.scrollPosition + 600})
         } else {
             $('.slider').animate({ scrollLeft: "-=630" }, 100);
         }
