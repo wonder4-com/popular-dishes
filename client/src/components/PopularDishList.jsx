@@ -1,68 +1,107 @@
 import React from 'react';
 import PopularDishEntry from './PopularDishEntry.jsx';
+import $ from 'jquery';
 
 class PopularDishList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             currentView: 0,
-            leftButton: false,
-            rightButton: true
+            scrollPosition: 5
         };
         this.onClickHandler = this.onClickHandler.bind(this);
+        this.onChangeHandler = this.onChangeHandler.bind(this);
     }
 
+    // onClickHandler(e) {
+    //     const dishes = this.props.popularDishes;
+    //     if (e.target.className === 'right') {
+    //         this.setState({ leftButton: true });
+    //         if (dishes.length - 3 > this.state.currentView + 3) {
+    //             console.log('on right click', this.state.currentView + 3);
+    //             this.setState({ currentView: this.state.currentView + 3 });
+    //         } else {
+    //             this.setState({ rightButton: false });
+    //             this.setState({ currentView: dishes.length - 3 });
+    //             console.log('on right click', dishes.length - 3);
+    //         }
+
+    //     } else {
+
+    //         if (this.state.currentView - 3 > 3) {
+    //             console.log('on left click', this.state.currentView - 3);
+    //             this.setState({ currentView: this.state.currentView - 3 });
+    //             this.setState({ rightButton: true });
+    //         } else {
+    //             this.setState({ currentView: 0 })
+    //             console.log('on left click', 0);
+    //             this.setState({ rightButton: true });
+    //             this.setState({ leftButton: false });
+    //         }
+    //     }
+    // }
+
     onClickHandler(e) {
-        const dishes = this.props.popularDishes;
-        if (e.target.className === 'right') {
-            this.setState({ leftButton: true });
-            if (dishes.length - 3 > this.state.currentView + 3) {
-                console.log('on right click', this.state.currentView + 3);
-                this.setState({ currentView: this.state.currentView + 3 });
-            } else {
-                this.setState({ rightButton: false });
-                this.setState({ currentView: dishes.length - 3 });
-                console.log('on right click', dishes.length - 3 );
-            }
-            
+        if (e.target.id === 'goRight') {
+            // this.setState({ scrollPosition: this.state.scrollPosition + 630 });
+            // $('.slide').addClass('moveRight')
+            // $('.slide').offset;
+            // $('.slide').removeClass('moveRight');
+            $('.slider').animate({ scrollLeft: "+=630" }, 100);
+            // this.setState({scrollPosition: this.state.scrollPosition + 600})
         } else {
-            
-            if (this.state.currentView - 3 > 3) {
-                console.log('on left click', this.state.currentView - 3);
-                this.setState({currentView: this.state.currentView - 3});
-                this.setState({rightButton: true});
-            } else {
-                this.setState({currentView: 0})
-                console.log('on left click', 0);
-                this.setState({ rightButton: true });
-                this.setState({ leftButton: false });
-            }
+            $('.slider').animate({ scrollLeft: "-=630" }, 100);
         }
+    }
+
+    onChangeHandler(e) {
+        this.setState({ scrollPosition: $('.slider').scrollLeft() })
     }
 
 
     render() {
-        if (this.props.popularDishes.length > 3) {
+        if (this.state.scrollPosition < 20) {
             return (
-                <div className="wrapper">
-                    {(this.state.leftButton) ? <button onClick={this.onClickHandler} className="left"> left </button> : null }
-                    {this.props.popularDishes.slice(this.state.currentView, this.state.currentView + 3).map((popularDish) => (
-                        <div className="slide">
-                            <PopularDishEntry item={popularDish.item} photos={popularDish.photos} />
-                        </div>
-                    ))}
-                    {(this.state.rightButton) ? <button onClick={this.onClickHandler} className="right"> right </button> : null}
+                <div>
+                    <div className="slider" onScroll={this.onChangeHandler} >
+                        {this.props.popularDishes.map((popularDish, index) => (
+                            <div className="slide" id={index}>
+                                <PopularDishEntry item={popularDish.item} photos={popularDish.photos} />
+                            </div>
+                        ))}
+                        <button id="goRight" onClick={this.onClickHandler}> </button>
+                    </div>
+
                 </div>
             )
 
+        } else if (this.state.scrollPosition > 1100) {
+            return (
+                <div>
+                    <div className="slider" onScroll={this.onChangeHandler} >
+                        {this.props.popularDishes.map((popularDish, index) => (
+                            <div className="slide" id={index}>
+                                <PopularDishEntry item={popularDish.item} photos={popularDish.photos} />
+                            </div>
+                        ))}
+                        <button id="goLeft" onClick={this.onClickHandler}>  </button>
+                    </div>
+
+                </div>
+            )
         } else {
             return (
                 <div>
-                    {this.props.popularDishes.slice(this.state.currentView, this.state.currentView + 3).map((popularDish) => (
-                        <div>
-                            <PopularDishEntry item={popularDish.item} photos={popularDish.photos} />
-                        </div>
-                    ))}
+                    <div className="slider" onScroll={this.onChangeHandler} >
+                        {this.props.popularDishes.map((popularDish, index) => (
+                            <div className="slide" id={index}>
+                                <PopularDishEntry item={popularDish.item} photos={popularDish.photos} />
+                            </div>
+                        ))}
+                        <button id="goLeft" onClick={this.onClickHandler}>  </button>
+                        <button id="goRight" onClick={this.onClickHandler}> </button>
+                    </div>
+
                 </div>
             )
         }
@@ -70,3 +109,5 @@ class PopularDishList extends React.Component {
 }
 
 export default PopularDishList;
+
+

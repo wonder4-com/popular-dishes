@@ -148,9 +148,7 @@ class App extends React.Component {
     render() {
         if (this.state.doneLoading) {
         return (
-            <div className="wrapper" >
                 <PopularDishList popularDishes={this.state.items} />
-            </div>
             )
         } else {
             return (

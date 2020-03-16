@@ -3,16 +3,16 @@ const faker = require('faker');
 const axios = require('axios');
 
 // how many companies do we want to be made
-const numberOfCompanies = 10;
+const numberOfCompanies = 2;
 
 // maxDishes in a company
-var maxDishes = 10;
+var maxDishes = 9;
 
 // Max number of reviews per dish
-var maxReviews = 10;
+var maxReviews = 100;
 
 // max number of photos per dish
-var maxPhotos = 40;
+var maxPhotos = 10;
 
 // function for making one company
 const makeCompany = () => {
@@ -84,7 +84,11 @@ const generateData = () => {
                             makePhoto(addPhoto, photoParams)
                             .then(() => console.log('made photos for dish with an id of', dish_id))
                         })
-                        .catch(err => console.log(err))
+                        .catch(err => {
+                            var photoParams = ['https://www.yorkshirecareequipment.com/wp-content/uploads/2018/09/no-image-available.jpg', faker.lorem.words(), dish_id]
+                            makePhoto(addPhoto, photoParams)
+                            .then(() => console.log('no photo availble for dish_id of:', dish_id))
+                        })
                     } 
                 }
                 );

@@ -1,5 +1,5 @@
 import React from 'react';
-import PhotoEntry from './PhotoEntry.jsx';
+import SmallDescription from './smallDescription.jsx';
 
 class PhotoBox extends React.Component {
     constructor(props) {
@@ -29,11 +29,18 @@ class PhotoBox extends React.Component {
 
     render() {
         return (
-            <div>
-                <button onClick={this.onClickHandler} className="button left">left</button>
-                <PhotoEntry photo={this.state.photos[this.state.currentPhoto]} />
-                <button onClick={this.onClickHandler} className="button right">right</button>
-                <div className="photo-number">{this.state.currentPhoto + 1} of {this.state.photos.length}</div>
+            <div> 
+                <div className="photoBox">
+                    <div className="cropper">
+                        <img src={this.state.photos[this.state.currentPhoto].url} className="photo"></img>
+                    </div>
+                </div>
+                <button onClick={this.onClickHandler} className="leftPhoto">left</button>
+                <button onClick={this.onClickHandler} className="rightPhoto">right</button>
+                <div className="photoCaption">
+                    <div>{this.state.photos[this.state.currentPhoto].caption} </div>
+                </div>
+                <div id="photoCount">{this.state.currentPhoto + 1} of {this.state.photos.length}</div>
             </div>
         )
     }

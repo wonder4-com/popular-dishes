@@ -43,28 +43,33 @@ class PopularDishEntry extends React.Component {
     render() {
         if (this.state.visiblePopUp) {
             return (
-                <div className="item-box">
-                    <div className="inner-box">
-                        <img src={(this.props.photos.length > 0) ? this.props.photos[0].url : 'https://us.123rf.com/450wm/pavelstasevich/pavelstasevich1811/pavelstasevich181101065/112815953-stock-vector-no-image-available-icon-flat-vector.jpg?ver=6'} width="250"></img>
-                        <p>{this.props.item.dish_name}</p>
-                        <p> {this.props.photos.length} Photos {this.props.item.review_count} Reviews </p>
+                <div>
+                    <div className="PopularDish">
+                        <img src={(this.props.photos.length > 0) ? this.props.photos[0].url : 'https://www.yorkshirecareequipment.com/wp-content/uploads/2018/09/no-image-available.jpg'}></img>
+                        <div className="PopularDishText">
+                            <span id="PopularDishName">{this.props.item.dish_name}</span>
+                            <br></br>
+                            <span> {this.props.photos.length} Photos &#183; {this.props.item.review_count} Reviews </span>
+                        </div>
                     </div>
                     <Modal>
                         <div className="modal">
-                            <PopUpComponent item={this.props.item} photos={this.props.photos} />
                             <button id="close-button" onClick={this.onClickHandler}> Close X </button>
+                            <PopUpComponent item={this.props.item} photos={this.props.photos} />
                         </div>
                     </Modal>
                 </div>
             )
         } else {
             return (
-                <div className="item-box" onClick={this.onClickHandler}>
-                    <div className="inner-box">
-                        <img src={(this.props.photos.length > 0) ? this.props.photos[0].url : 'https://us.123rf.com/450wm/pavelstasevich/pavelstasevich1811/pavelstasevich181101065/112815953-stock-vector-no-image-available-icon-flat-vector.jpg?ver=6'} width="250"></img>
-                        <p>{this.props.item.dish_name}</p>
-                        <p> {this.props.photos.length} Photos {this.props.item.review_count} Reviews </p>
+                <div className="PopularDish" onClick={this.onClickHandler}>
+                    <img src={(this.props.photos.length > 0) ? this.props.photos[0].url : 'https://www.yorkshirecareequipment.com/wp-content/uploads/2018/09/no-image-available.jpg'}></img>
+                    <div className="PopularDishText">
+                        <span id="PopularDishName">{this.props.item.dish_name}</span>
+                        <br></br>
+                        <span> {this.props.photos.length} Photos &#183; {this.props.item.review_count} Reviews </span>
                     </div>
+
                 </div>
             )
         }

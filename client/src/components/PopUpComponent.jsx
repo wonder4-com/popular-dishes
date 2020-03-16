@@ -4,9 +4,11 @@ import PhotoBox from './PhotoBox.jsx';
 import SmallDescription from './smallDescription.jsx';
 
 const PopUpComponent = ({ item, photos }) => (
-    <div>
+    <div className="itemDescription">
         <PhotoBox photos={photos} />
-        <SmallDescription item={item}/>
+        <div className="smallDescription">
+            <SmallDescription item={item}/>
+        </div>
     </div>
 );
 
