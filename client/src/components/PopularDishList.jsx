@@ -13,34 +13,6 @@ class PopularDishList extends React.Component {
         this.onChangeHandler = this.onChangeHandler.bind(this);
     }
 
-    // onClickHandler(e) {
-    //     const dishes = this.props.popularDishes;
-    //     if (e.target.className === 'right') {
-    //         this.setState({ leftButton: true });
-    //         if (dishes.length - 3 > this.state.currentView + 3) {
-    //             console.log('on right click', this.state.currentView + 3);
-    //             this.setState({ currentView: this.state.currentView + 3 });
-    //         } else {
-    //             this.setState({ rightButton: false });
-    //             this.setState({ currentView: dishes.length - 3 });
-    //             console.log('on right click', dishes.length - 3);
-    //         }
-
-    //     } else {
-
-    //         if (this.state.currentView - 3 > 3) {
-    //             console.log('on left click', this.state.currentView - 3);
-    //             this.setState({ currentView: this.state.currentView - 3 });
-    //             this.setState({ rightButton: true });
-    //         } else {
-    //             this.setState({ currentView: 0 })
-    //             console.log('on left click', 0);
-    //             this.setState({ rightButton: true });
-    //             this.setState({ leftButton: false });
-    //         }
-    //     }
-    // }
-
     onClickHandler(e) {
         if (e.target.id === 'goRight') {
             $('.slider').animate({ scrollLeft: "+=630" }, 100);
@@ -51,6 +23,10 @@ class PopularDishList extends React.Component {
 
     onChangeHandler(e) {
         this.setState({ scrollPosition: $('.slider').scrollLeft() })
+    }
+
+    setView (current) {
+        this.setState({currentView: current});
     }
 
 

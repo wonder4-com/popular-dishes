@@ -1,31 +1,7 @@
 import React from 'react';
 import PopUpComponent from './PopUpComponent.jsx';
-import ReactDOM from 'react-dom';
-const modalRoot = document.getElementById('modal-root');
-
-
-
-class Modal extends React.Component {
-    constructor(props) {
-        super(props);
-        this.el = document.createElement('div');
-    }
-
-    componentDidMount() {
-        modalRoot.appendChild(this.el);
-    }
-
-    componentWillUnmount() {
-        modalRoot.removeChild(this.el);
-    }
-
-    render() {
-        return ReactDOM.createPortal(
-            this.props.children,
-            this.el,
-        );
-    }
-}
+import Modal from './modal.jsx';
+import $ from 'jquery';
 
 class PopularDishEntry extends React.Component {
     constructor(props) {
@@ -36,8 +12,9 @@ class PopularDishEntry extends React.Component {
         this.onClickHandler = this.onClickHandler.bind(this);
     }
 
-    onClickHandler() {
+    onClickHandler(e) {
         this.setState({ visiblePopUp: !this.state.visiblePopUp })
+        
     }
 
     render() {
@@ -54,7 +31,7 @@ class PopularDishEntry extends React.Component {
                     </div>
                     <Modal>
                         <div className="modal">
-                            <button id="close-button" onClick={this.onClickHandler}> Close X </button>
+                            <button className="close-button" onClick={this.onClickHandler}> <div id="closeModal">Close</div> &#x2715; </button>
                             <PopUpComponent item={this.props.item} photos={this.props.photos} />
                         </div>
                     </Modal>
@@ -62,7 +39,7 @@ class PopularDishEntry extends React.Component {
             )
         } else {
             return (
-                <div className="PopularDish" onClick={this.onClickHandler}>
+                <div className={"PopularDish "+ this.props.item.dish_id} onClick={this.onClickHandler}>
                     <img src={(this.props.photos.length > 0) ? this.props.photos[0].url : 'https://www.yorkshirecareequipment.com/wp-content/uploads/2018/09/no-image-available.jpg'}></img>
                     <div className="PopularDishText">
                         <span id="PopularDishName">{this.props.item.dish_name}</span>
@@ -77,5 +54,3 @@ class PopularDishEntry extends React.Component {
 }
 
 export default PopularDishEntry;
-
-// <img src={this.props.photos[0].url} width="200"></img>

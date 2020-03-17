@@ -98,8 +98,8 @@ button {
   border: .5px solid #e6e6e6;
   border-radius: 30px;
   background-image: url('/leftarrow.png');
-  background-position: center;
-  background-size: 35px 35px;
+  background-position: 45% 45%;
+  background-size: 45px 45px;
   height: 35px;
   width: 35px;
   outline-width: 0;
@@ -110,8 +110,8 @@ button {
   border: .5px solid #e6e6e6;
   border-radius: 30px;
   background-image: url('/arrow.png');
-  background-position: center;
-  background-size: 35px 35px;
+  background-position: 45% 40%;
+  background-size: 45px 45px;
   height: 35px;
   width: 35px;
   outline-width: 0;
@@ -121,10 +121,27 @@ button {
   box-shadow: 12px 0 15px -6px rgba(31, 73, 125, 0.8), -12px 0 8px -6px rgba(31, 73, 125, 0.8);
 }
 
-#close-button {
+.close-button {
   position: fixed;
-  margin-top: -330px;
-  margin-left: 500px;
+  font-size: 20px;
+  background-color: transparent;
+  color: white;
+  margin-top: -310px;
+  margin-left: 530px;
+  border: none;
+  outline-width: 0;
+}
+
+#closeModal {
+  position: absolute;
+  font-size: 15px;
+  margin-top: 2px;
+  margin-left: -45px;
+  font-weight: normal;
+}
+
+#closeModal:hover {
+  text-decoration: underline;
 }
 
 .photoBox {
@@ -149,42 +166,78 @@ button {
 }
 
 .rightPhoto {
+    position: absolute;
+    left: 40px;
+    margin-top: 269.5px;
+    border-top: 6px solid white;
+    border-bottom: transparent;
+    border-left: transparent;
+    border-right: transparent;
+    background-color: transparent;
+    width: 46px;
+    transform: rotate(59deg);
+    border-radius: 2px;
+    outline-width: 0;
+    opacity: 50%;
+}
+
+.rightPhoto:after {
+  content: "";
+  border: solid white;
+  border-width: 1.25px;
+  border-radius: 2px;
+  left: 49.9px;
+  top: -6.7px;
+  transform: rotate(155deg);
   position: absolute;
-  mix-blend-mode: multiply;
-  margin-top: 245px;
-  margin-left: 50px;
-  z-index: 998;
-  background-image: url('/rightClearArrow.png');
-  background-position: center;
-  background-size: 200px 200px;
-  height: 100px;
-  width: 50px;
-  outline-width: 0;
-  border: none;
+  border-width: 46px 6px 0px 0px;
+}
+
+.rightPhoto:hover::after {
+  opacity: 100%;
 }
 
 .rightPhoto:hover {
   cursor: pointer;
+  opacity: 100%;
 }
 
 .leftPhoto:hover {
   cursor: pointer;
+  opacity: 100%;
+}
+
+.leftPhoto:hover::after {
+  opacity: 100%;
 }
 
 
 .leftPhoto {
+    position: absolute;
+    margin-top: 308.5px;
+    left: -690px;
+    border-top: 6px solid white;
+    border-bottom: transparent;
+    border-left: transparent;
+    border-right: transparent;
+    background-color: transparent;
+    width: 46px;
+    transform: rotate(239deg);
+    border-radius: 2px;
+    outline-width: 0;
+    opacity: 50%;
+}
+
+.leftPhoto:after {
+  content: "";
+  border: solid white;
+  border-width: 1.25px;
+  border-radius: 2px;
+  left: 49.9px;
+  top: -6.7px;
+  transform: rotate(157deg);
   position: absolute;
-  mix-blend-mode: multiply;
-  margin-top: 245px;
-  margin-left: -700px;
-  z-index: 1000;
-  background-image: url('/leftClearArrow.png');
-  background-position: center;
-  background-size: 200px 200px;
-  height: 100px;
-  width: 50px;
-  outline-width: 0;
-  border: none;
+  border-width: 46px 6px 0px 0px;
 }
 
 .photoCaption {
