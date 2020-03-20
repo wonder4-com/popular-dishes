@@ -1,72 +1,110 @@
 import React from 'react';
 import PopularDishEntry from './PopularDishEntry.jsx';
+import $ from 'jquery';
+import Modal from './modal.jsx';
+import PopUpComponent from './PopUpComponent.jsx';
 
 class PopularDishList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentView: 0,
-            leftButton: false,
-            rightButton: true
+            modalVisibility: false,
+            scrollPosition: 5,
+            item: {},
+            photos: [],
+            index: 0
         };
         this.onClickHandler = this.onClickHandler.bind(this);
+        this.onChangeHandler = this.onChangeHandler.bind(this);
+        this.setView = this.setView.bind(this);
+        this.popUpComponentElement = React.createRef();
+        this.outsideModalHandler = this.outsideModalHandler.bind(this);
     }
 
     onClickHandler(e) {
-        const dishes = this.props.popularDishes;
-        if (e.target.className === 'right') {
-            this.setState({ leftButton: true });
-            if (dishes.length - 3 > this.state.currentView + 3) {
-                console.log('on right click', this.state.currentView + 3);
-                this.setState({ currentView: this.state.currentView + 3 });
-            } else {
-                this.setState({ rightButton: false });
-                this.setState({ currentView: dishes.length - 3 });
-                console.log('on right click', dishes.length - 3 );
-            }
-            
+        e.preventDefault();
+        if (e.target.id === 'goRight') {
+            $('.slider').animate({ scrollLeft: "+=630" }, 100);
         } else {
-            
-            if (this.state.currentView - 3 > 3) {
-                console.log('on left click', this.state.currentView - 3);
-                this.setState({currentView: this.state.currentView - 3});
-                this.setState({rightButton: true});
-            } else {
-                this.setState({currentView: 0})
-                console.log('on left click', 0);
-                this.setState({ rightButton: true });
-                this.setState({ leftButton: false });
-            }
+            $('.slider').animate({ scrollLeft: "-=630" }, 100);
         }
     }
 
+    onChangeHandler(e) {
+        e.preventDefault();
+        this.setState({ scrollPosition: $('.slider').scrollLeft() })
+    }
+
+    setView(e, item, photos) {
+        e.preventDefault();
+            if (e.target.className === "close-button" || e.target.id === "closeModal" || e.target.className.includes("popper")) {
+                this.setState({ item: item || {} }); //setting new item
+                this.setState({ photos: photos || [] }); //setting new photos
+                this.setState({ modalVisibility: !this.state.modalVisibility }); //turning modal visibility to TRUE
+                // setting index of current dish in popular dishes
+                this.props.popularDishes.forEach((popularDish, index) => (JSON.stringify(popularDish.item) === JSON.stringify(item)) ? this.setState({ index: index }) : null)
+            } else if (e.target.id === "nextDish") {
+                this.popUpComponentElement.current.resetPhotoBox();
+                if (this.props.popularDishes[this.state.index + 1].photos.length > 0) {
+                    console.log(JSON.stringify(this.props.popularDishes[2].photos));
+                    this.setState({ item: this.props.popularDishes[this.state.index + 1].item }); //setting next item
+                    this.setState({ photos: this.props.popularDishes[this.state.index + 1].photos }); //setting next photos
+                    this.setState({ index: this.state.index + 1 }); // setting index to one more
+                } else {
+                    this.setState({ item: this.props.popularDishes[this.state.index + 1].item }); //setting next item
+                    this.setState({ photos: [{url: 'https://www.yorkshirecareequipment.com/wp-content/uploads/2018/09/no-image-available.jpg'}] }); //setting next photos
+                    this.setState({ index: this.state.index + 1 }); // setting index to one more
+                }
+            } else if (e.target.id === "previousDish") {
+                this.popUpComponentElement.current.resetPhotoBox();
+                if (this.props.popularDishes[this.state.index - 1].photos.length > 0) {
+                    this.setState({ item: this.props.popularDishes[this.state.index - 1].item }); //setting to previous item
+                    this.setState({ photos: this.props.popularDishes[this.state.index - 1].photos }); //setting previous photos
+                    this.setState({ index: this.state.index - 1 }); // setting index to one less
+                } else {
+                    this.setState({ item: this.props.popularDishes[this.state.index - 1].item }); //setting to previous item
+                    this.setState({ photos: [{url: 'https://www.yorkshirecareequipment.com/wp-content/uploads/2018/09/no-image-available.jpg'}] }); //setting previous photos
+                    this.setState({ index: this.state.index - 1 }); // setting index to one less
+                }
+            }
+    };
+
+    outsideModalHandler(e) {
+        if (e.target.className === 'modal') {
+            this.setState({ modalVisibility: false });
+        }
+    }
 
     render() {
-        if (this.props.popularDishes.length > 3) {
-            return (
-                <div className="wrapper">
-                    {(this.state.leftButton) ? <button onClick={this.onClickHandler} className="left"> left </button> : null }
-                    {this.props.popularDishes.slice(this.state.currentView, this.state.currentView + 3).map((popularDish) => (
-                        <div className="slide">
-                            <PopularDishEntry item={popularDish.item} photos={popularDish.photos} />
+        return (
+            <div>
+                <div className="slider" onScroll={this.onChangeHandler} >
+                    {this.props.popularDishes.map((popularDish, index) => (
+                        <div className="slide" id={index}>
+                            <PopularDishEntry item={popularDish.item} photos={popularDish.photos} buttonHandler={this.setView} />
                         </div>
                     ))}
-                    {(this.state.rightButton) ? <button onClick={this.onClickHandler} className="right"> right </button> : null}
+                    {(this.state.scrollPosition > 20) ? <button id="goLeft" onClick={this.onClickHandler}></button> : null}
+                    {(this.state.scrollPosition < 1200) ? <button id="goRight" onClick={this.onClickHandler}> </button> : null}
                 </div>
-            )
-
-        } else {
-            return (
-                <div>
-                    {this.props.popularDishes.slice(this.state.currentView, this.state.currentView + 3).map((popularDish) => (
-                        <div>
-                            <PopularDishEntry item={popularDish.item} photos={popularDish.photos} />
+                {(this.state.modalVisibility) ?
+                    <Modal>
+                        <div className="modal" onClick={this.outsideModalHandler}>
+                            <button className="close-button" onClick={this.setView}> <div id="closeModal">Close</div> &#x2715; </button>
+                            <PopUpComponent item={this.state.item} photos={this.state.photos} reviews={this.props.popularDishes[this.state.index].reviews} ref={this.popUpComponentElement} />
+                            <div className="itemButtons">
+                                {(this.state.index < this.props.popularDishes.length - 1) ? <button id="nextDish" onClick={this.setView}>{this.props.popularDishes[this.state.index + 1].item.dish_name} <div id="dishArrowRight"></div> </button> : null}
+                                {(this.state.index > 0) ? <button id="previousDish" onClick={this.setView}>{this.props.popularDishes[this.state.index - 1].item.dish_name} <div id="dishArrowLeft"></div> </button> : null}
+                            </div>
                         </div>
-                    ))}
-                </div>
-            )
-        }
+                    </Modal>
+                    : null
+                }
+            </div>
+        )
     }
 }
 
 export default PopularDishList;
+
+

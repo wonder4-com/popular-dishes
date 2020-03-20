@@ -30,3 +30,30 @@ CREATE TABLE photos (
     PRIMARY KEY(photo_id),
     FOREIGN KEY (popular_dish) REFERENCES PopularDishes(dish_id)
 );
+
+
+CREATE TABLE users (
+    userid int NOT NULL AUTO_INCREMENT,
+    userphoto VARCHAR(200),
+    username VARCHAR(70) NOT NULL,
+    friends int, 
+    reviews int,
+    PRIMARY KEY (userid),
+    UNIQUE (username)
+);
+
+CREATE TABLE reviews (
+    reviewid int NOT NULL AUTO_INCREMENT,
+    userid int NOT NULL,
+    date VARCHAR(100) NOT NULL,
+    rating int NOT NULL,
+    text VARCHAR(1000) NOT NULL,
+    dish_id int NOT NULL,
+    PRIMARY KEY (reviewid),
+    FOREIGN KEY (userid) REFERENCES users(userid),
+    FOREIGN KEY (dish_id) REFERENCES PopularDishes(dish_id)  
+);
+
+-- var query = 'INSERT INTO reviews (userid, date, rating, text, dish_id)' 
+-- // later we can search by userid on the table where we join the reviews with users to get user profiles
+-- var query = 'INSERT INTO users (userphoto, username)'

@@ -1,76 +1,41 @@
 import React from 'react';
 import PopUpComponent from './PopUpComponent.jsx';
-import ReactDOM from 'react-dom';
-const modalRoot = document.getElementById('modal-root');
-
-
-
-class Modal extends React.Component {
-    constructor(props) {
-        super(props);
-        this.el = document.createElement('div');
-    }
-
-    componentDidMount() {
-        modalRoot.appendChild(this.el);
-    }
-
-    componentWillUnmount() {
-        modalRoot.removeChild(this.el);
-    }
-
-    render() {
-        return ReactDOM.createPortal(
-            this.props.children,
-            this.el,
-        );
-    }
-}
+import Modal from './modal.jsx';
+import $ from 'jquery';
 
 class PopularDishEntry extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            visiblePopUp: false
+
         };
         this.onClickHandler = this.onClickHandler.bind(this);
     }
 
-    onClickHandler() {
-        this.setState({ visiblePopUp: !this.state.visiblePopUp })
+    onClickHandler(e) {
+        e.preventDefault();
+        this.props.buttonHandler(e, this.props.item, this.props.photos);
     }
 
     render() {
-        if (this.state.visiblePopUp) {
-            return (
-                <div className="item-box">
-                    <div className="inner-box">
-                        <img src={(this.props.photos.length > 0) ? this.props.photos[0].url : 'https://us.123rf.com/450wm/pavelstasevich/pavelstasevich1811/pavelstasevich181101065/112815953-stock-vector-no-image-available-icon-flat-vector.jpg?ver=6'} width="250"></img>
-                        <p>{this.props.item.dish_name}</p>
-                        <p> {this.props.photos.length} Photos {this.props.item.review_count} Reviews </p>
-                    </div>
-                    <Modal>
-                        <div className="modal">
-                            <PopUpComponent item={this.props.item} photos={this.props.photos} />
-                            <button id="close-button" onClick={this.onClickHandler}> Close X </button>
-                        </div>
-                    </Modal>
-                </div>
-            )
-        } else {
-            return (
-                <div className="item-box" onClick={this.onClickHandler}>
-                    <div className="inner-box">
-                        <img src={(this.props.photos.length > 0) ? this.props.photos[0].url : 'https://us.123rf.com/450wm/pavelstasevich/pavelstasevich1811/pavelstasevich181101065/112815953-stock-vector-no-image-available-icon-flat-vector.jpg?ver=6'} width="250"></img>
-                        <p>{this.props.item.dish_name}</p>
-                        <p> {this.props.photos.length} Photos {this.props.item.review_count} Reviews </p>
+        return (
+            <div onClick={this.onClickHandler}>
+                <div className="PopularDish popper">
+                    <img className="popper" src={(this.props.photos.length > 0) ? this.props.photos[0].url : 'https://www.yorkshirecareequipment.com/wp-content/uploads/2018/09/no-image-available.jpg'}></img>
+                    <div className="PopularDishText popper">
+                        <span id="PopularDishName popper">{this.props.item.dish_name}</span>
+                        <br></br>
+                        <span className="popper"> {this.props.photos.length} Photos &#183; {this.props.item.review_count} Reviews </span>
                     </div>
                 </div>
-            )
-        }
+                <div className="PopularDishEntryPriceBox popper" >
+                    <div className="PopularDishEntryPrice popper">${this.props.item.price}</div>
+                </div>
+                    <div className="PopularDishEntryPrice1 popper">${this.props.item.price}</div>
+                    
+            </div>
+        )
     }
 }
 
 export default PopularDishEntry;
-
-// <img src={this.props.photos[0].url} width="200"></img>
