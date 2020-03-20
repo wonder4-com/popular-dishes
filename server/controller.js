@@ -24,5 +24,28 @@ const getPhotos = (request, response) => {
     });
 }
 
+const getCompany = (companyNumber, response) => {
+    var query = 'SELECT * FROM Restaurants WHERE restaurant_id = ' + companyNumber;
+    db.query(query, (err,data) => {
+        if (err) {
+            response.status(400).send('bad request');
+        } else {
+            response.send(data);
+        }
+    })
+}
 
-module.exports = { getDishes, getPhotos }
+const getReviews = (request, response) => {
+    var dish_id = request.query.dish_id;
+    var query = 'SELECT a.*, b.* FROM reviews a INNER JOIN users b ON a.userid = b.userid';
+    db.query(query, (err, data) => {
+        if (err) {
+            response.status(400).send('bad request');
+        } else {
+            response.send(data.slice(0, request.query.numberOfReviews));
+        }
+    })
+}
+
+
+module.exports = { getDishes, getPhotos, getCompany, getReviews }

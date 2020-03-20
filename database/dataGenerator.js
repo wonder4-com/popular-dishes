@@ -1,133 +1,170 @@
-// const db = require('./index.js');
+const db = require('./index.js');
 const faker = require('faker');
-// const axios = require('axios');
+const axios = require('axios');
 
-// // how many companies do we want to be made
-// const numberOfCompanies = 2;
+// how many companies do we want to be made
+const numberOfCompanies = 1;
 
-// // maxDishes in a company
-// var maxDishes = 9;
+// maxDishes in a company
+var maxDishes = 9;
 
-// // Max number of reviews per dish
-// var maxReviews = 100;
+// Max number of reviews per dish
+var maxReviews = 100;
 
-// // max number of photos per dish
-// var maxPhotos = 10;
+// max number of photos per dish
+var maxPhotos = 10;
 
-// // function for making one company
-// const makeCompany = () => {
-//     return new Promise ((resolve, reject) => {
-//         var params = [faker.company.companyName()]
-//         var query = 'INSERT INTO Restaurants (restaurant_name) values(?)'
-//         db.query(query, params, (err, data) => {
-//             if (err) {
-//                 reject(err);
-//             } else {
-//                 resolve(data);
-//             }
-//         });
-//     })
-// }
+// number of users for one restaurant
+var maxUsers = 40;
 
-// // function for making one dish
-// const makeDish = (addDish, params) => {
-//     return new Promise((res, rej) => {
-//         db.query(addDish, params, (err, data) => {
-//             if (err) {
-//                 rej(err)
-//             } else {
-//                 res(data)
-//             }
-//         })
-//     })
-// };
+// function for making one company
+const makeCompany = () => {
+    return new Promise((resolve, reject) => {
+        var params = [faker.company.companyName()]
+        var query = 'INSERT INTO Restaurants (restaurant_name) values(?)'
+        db.query(query, params, (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        });
+    })
+}
 
-// // function for making one photo
-// const makePhoto = (addPhoto, photoParams) => {
-//     return new Promise ((res, rej) => {
-//         db.query(addPhoto, photoParams, (err) => {
-//             if (err) {
-//                 rej(err)
-//             } else {
-//                 res();
-//             }
-//         })
-//     })
-// };
+// function for making one dish
+const makeDish = (addDish, params) => {
+    return new Promise((res, rej) => {
+        db.query(addDish, params, (err, data) => {
+            if (err) {
+                rej(err)
+            } else {
+                res(data)
+            }
+        })
+    })
+};
 
-// //function for making one review;
-// const makeReview = (reviewParams) => {
-//     return new Promise ((res, rej) => {
-//         query= 'INSERT INTO reviews (reviewid, userid, date, rating, text, dish_id) values (?,?,?,?,?,?)';
-//         db.query(query, reviewParams, (err) => {
-//             if (err) {
-//                 rej(err)
-//             } else {
-//                 res();
-//             }
-//         })
-//     })
-// }
+// function for making one photo
+const makePhoto = (addPhoto, photoParams) => {
+    return new Promise((res, rej) => {
+        db.query(addPhoto, photoParams, (err) => {
+            if (err) {
+                rej(err)
+            } else {
+                res();
+            }
+        })
+    })
+};
 
-// //make users
-// const makeUser = () => {
-//     return new Promise ((res, rej) => {
-//         var userParams = [faker.name.findName()];
-//         var query = 'INSERT INTO users (username) values (?)';
-//         db.query(query, userParams, (err) => {
-//             if (err) {
-//                 rej(err)
-//             } else {
-//                 res(data);
-//             }
-//         })
-//     })
-// }
+//function for making one review;
+const makeReview = (reviewParams) => {
+    return new Promise((res, rej) => {
+        query = 'INSERT INTO reviews (userid, date, rating, text, dish_id) values (?,?,?,?,?)';
+        db.query(query, reviewParams, (err) => {
+            if (err) {
+                rej(err)
+            } else {
+                res();
+            }
+        })
+    })
+}
+
+//make users
+const makeUser = (imageUrl) => {
+    return new Promise((res, rej) => {
+        var userParams = [faker.name.findName(), imageUrl, Math.floor(Math.random() * 100), Math.floor(Math.random() * 20)];
+        var query = 'INSERT INTO users (username, userphoto, reviews, friends) values (?, ?, ?, ?)';
+        db.query(query, userParams, (err, data) => {
+            if (err) {
+                rej(err)
+            } else {
+                res(data);
+            }
+        })
+    })
+}
 
 
-// const generateData = () => {
-//     for (var i = 0; i < numberOfCompanies; i++) {
-//         makeCompany()
-//         .then(data => {
-//             // after making one company we get it's restaurantid
-//             var restaurantId = data.insertId;
-//             console.log('made restaurant with restaurant_id', restaurantId)
-//             for (var i = 0; i < maxDishes; i++) {
-//                 var params = [faker.lorem.word(), faker.random.number(), faker.lorem.words(), Math.round(Math.random() * maxReviews), restaurantId]
-//                 var addDish = 'INSERT INTO PopularDishes (dish_name, price, description, review_count, restaurant) values (?,?,?,?,?)';
-//                 // then we make multiple dishes with the restaurantid as it's foreign key
-//                 makeDish(addDish, params)
-//                 .then(data => {
-//                     console.log('made dishes for restaurant with id', restaurantId)
-//                     var dish_id = data.insertId;
-//                     var urlStart = 'https://loremflickr.com/1920/1080/';
-//                     var urlTwo = urlStart + params[0];
-//                     for (var o = 0; o < Math.floor(Math.random() * maxPhotos) + 1; o++) {
-//                         var addPhoto = 'INSERT INTO photos (url, caption, popular_dish) values (?,?,?)';
-//                         // then we make a get request to lorem flickr
-//                         axios.get(urlTwo)
-//                         .then(data => {
-//                             // we get back a photo, but what we want is the url that we were redirected to
-//                             var responseUrl = data.request.res.responseUrl;
-//                             var photoParams = [responseUrl, faker.lorem.words(), dish_id];
-//                             // then we use that url from the response the url for a photo
-//                             makePhoto(addPhoto, photoParams)
-//                             .then(() => console.log('made photos for dish with an id of', dish_id))
-//                         })
-//                         .catch(err => {
-//                             console.log('Attempt at making phtoto for dish_id of:', dish_id))
-//                         })
-//                     } 
-//                 }
-//                 );
-//             }
-//         })  
-//     }
-// }
+const generateData = () => {
+        for (var i = 0; i < numberOfCompanies; i++) {
+            makeCompany()
+                .then(data => {
+                    // after making one company we get it's restaurantid
+                    var restaurantId = data.insertId;
+                    console.log('made restaurant with restaurant_id', restaurantId)
+                    for (var i = 0; i < maxDishes; i++) {
+                        var reviewCount = Math.round(Math.random() * maxReviews);
+                        console.log('----------------------------------------', reviewCount);
+                        var params = [faker.lorem.word(), faker.random.number(), faker.lorem.words(), reviewCount, restaurantId]
+                        var addDish = 'INSERT INTO PopularDishes (dish_name, price, description, review_count, restaurant) values (?,?,?,?,?)';
+                        // then we make multiple dishes with the restaurantid as it's foreign key
+                        makeDish(addDish, params)
+                            .then(data => {
+                                var dish_id = data.insertId;
+                                var urlStart = 'https://loremflickr.com/1920/1080/';
+                                var urlTwo = urlStart + params[0];
+                                for (var o = 0; o < Math.floor(Math.random() * maxPhotos) + 1; o++) {
+                                    var addPhoto = 'INSERT INTO photos (url, caption, popular_dish) values (?,?,?)';
+                                    // then we make a get request to lorem flickr
+                                    axios.get(urlTwo)
+                                        .then(data => {
+                                            // we get back a photo, but what we want is the url that we were redirected to
+                                            var responseUrl = data.request.res.responseUrl;
+                                            var photoParams = [responseUrl, faker.lorem.words(), dish_id];
+                                            // then we use that url from the response the url for a photo
+                                            makePhoto(addPhoto, photoParams)
+                                        })
+                                        .catch(err => {
+                                            console.log('Attempt at making phtoto for dish_id of:', dish_id)
+                                        })
+                                        
+                                }
+                            }
+                        );
+                    }
+                })
+        }
+}
 
-// generateData();
+setTimeout(() => {
+    db.query('SELECT * FROM PopularDishes', (err, data) => {
+        var dishes = data;
+        if (err) {
+            console.log(err)
+        } else {
+            for (var i = 0; i < dishes.length; i++) {
+                // making users after dish is made
+                for (var k = 0; k < dishes[i].review_count; k++) {
+                    var idOfDish = dishes[i].dish_id
+                    axios.get('http://loremflickr.com/200/200/pokemon')
+                        .then(response => {
+                            var imageUrl = response.request.res.responseUrl;
+                            makeUser(imageUrl)
+                                .then((response => {
+                                    var userid = response.insertId;
+                                    console.log(userid)
+                                    var reviewParams = [userid, faker.date.past(1), Math.ceil(Math.random() * 5), faker.lorem.sentences(), idOfDish];
+                                    makeReview(reviewParams)
+                                        .then(() => {
+                                            console.log('reviews have been made');
+                                        })
+                                }))
+                        })
+                        .catch(err => {
+                            console.log('user could not be made');
+                        })
+                }
+            }
+        }
+    })
+}, 5000)
 
-// var selectiveQuery = 'SELECT a.*, b.* FROM PopularDishes a INNER JOIN Restaurants b ON a.restaurant = b.restaurant_id WHERE a.restaurant = 1';
+generateData();
+
+// var selectiveQuery = 'SELECT a.*, b.* FROM reviews a INNER JOIN users b ON a.userid = b.userid WHERE a.dish_id = 1';
 // var selectPhotos = 'SELECT a.*, b.* FROM photos a INNER JOIN PopularDishes b ON a.popular_dish = b.dish_id WHERE a.popular_dish = 5';
 
 
@@ -135,9 +172,3 @@ const faker = require('faker');
 
 // module.exports = numberOfCompanies;
 
-console.log('this is for avatar',faker.internet.avatar())
-console.log('this is for image url',faker.image.imageUrl())
-console.log('this is for abstract',faker.image.abstract())
-console.log('this is for business',faker.image.business())
-console.log('this is for food',faker.image.food())
-console.log('this is for fashion',faker.image.fashion())

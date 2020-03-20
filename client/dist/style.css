@@ -3,9 +3,14 @@
   white-space: normal;
 }
 
-h3 {
+#ComponentTitle {
   padding-left: 50px;
   position: relative;
+}
+
+
+body {
+  overflow-x: hidden;
 }
 
 #modal-root {
@@ -28,7 +33,7 @@ h3 {
 .slider {
   left: 50px;
   float: left;
-  width: 620px;
+  width: 615px;
   position: relative;
   height: 225px;
   display: flex;
@@ -86,6 +91,36 @@ box-shadow: 12px 0 15px -6px rgba(31, 73, 125, 0.3), -12px 0 8px -6px rgba(31, 7
   font-size: 15px;
   color: black;
   font-weight: bold;
+}
+
+.PopularDishEntryPrice {
+  position: relative;
+  opacity: none;
+  padding: 3px;
+  position: relative;
+  color: transparent;
+  z-index: 1;
+}
+
+.PopularDishEntryPrice1 {
+  position: relative;
+  margin-left: 124px;
+  margin-top: -100px;
+  opacity: none;
+  padding: 3px;
+  position: relative;
+  color: white;
+  z-index: 1;
+}
+
+.PopularDishEntryPriceBox {
+  margin-left: 124px;
+  margin-top: -100px;
+  position: absolute;
+  height: 23px;
+  opacity: 50%;
+  border-radius: 4px;
+  background-color: black;
 }
 
 button {
@@ -146,6 +181,7 @@ button {
 
 .photoBox {
   position: fixed;
+  margin-top: 0px;
   background-color: black;
   height: 600px;
   width: 800px;
@@ -260,17 +296,61 @@ button {
   margin-left: 350px; 
   background-color: white;
   height: 600px;
-  width: 400px;
+  width: 500px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
 
-.smallDescription {
+.reviewsBox {
   position: fixed;
+  overflow-y: scroll;
+  height: 530px;
+  width: 355px;
   margin-left: 120px;
-  font-size: 15px;
-  margin-top: 20px;
-  line-break: none;
+  margin-top: 70px;
+}
+
+.reviewsBox button {
+  position: relative;
+  margin-top: 0px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #0073bb;
+  margin-left: -7px;
+  padding-bottom: 10px;
+}
+
+.reviewsBox button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.reviewUserName {
+  position: relative;
+  margin-top: -32.5px;
+  margin-left: 35px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.reviewCropper {
+  margin-top: 15px;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.reviewCropper img {
+  height: 30px;
+}
+
+.reviewsLength {
+  position: relative;
+  font-size: 17px;
+  font-weight: 600;
 }
 
 #dishName {
@@ -279,13 +359,287 @@ button {
 }
 
 #dishPrice {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .smallDescriptionBorder {
+  position: relative;
+  font-size: 14.5px;
   white-space: normal;
   width: 260px;
-  height: 535px;
-  overflow: scroll;
+  height: 40px;
 }
+
+#previousDish {
+  position: absolute;
+  font-size: 15px;
+  color: white;
+  background-color: transparent;
+  left: -585px;
+  margin-top: 311px;
+  border: none;
+  outline-width: 0;
+}
+
+#nextDish {
+  position: absolute;
+  right: -580px;
+  font-size: 15px;
+  color: white;
+  background-color: transparent;
+  margin-top: 311px;
+  border: none;
+  outline-width: 0;
+}
+
+#previousDish:hover {
+  text-decoration: underline;
+}
+#nextDish:hover {
+  text-decoration: underline;
+}
+
+#dishArrowRight {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-top: 3px solid white;
+  border-right: 3px solid white;
+  transform: rotate(45deg);
+  margin-top: -15px;
+  right: -10px;
+}
+
+#dishArrowLeft {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-top: 3px solid white;
+  border-right: 3px solid white;
+  transform: rotate(225deg);
+  margin-top: -15px;
+  left: -10px
+}
+
+#allItems {
+  margin-top: -36px;
+  padding-bottom: 15px;
+  left: 550px;
+  position: relative;
+  font-size: 15px;
+  color: #0073bb;
+}
+
+#allItems:hover {
+  text-decoration: underline;
+}
+
+.itemButtons {
+  position: fixed;
+}
+
+.fullMenu {
+  position: absolute;
+  background-color: white;
+  width: 75%;
+  height: 600px;
+  border-radius: 10px;
+  overflow-y: scroll;
+  display: inline-block;
+  left: 12.5%;
+  padding: 10px;
+  line-break: auto;
+}
+
+.fullMenu h3 {
+  margin-top: -3px;
+}
+
+.menuItem {
+  border-top: 1px solid #e6e6e6;
+  padding-left: 10px;
+  height: 80px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.smallSquarePhoto {
+  width: 70px;
+  height: 70px;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-top: 5px;
+}
+
+.smallSquarePhoto img {
+  height: 70px;
+}
+
+.squarePhotoDescription {
+  margin-top: -73px;
+  margin-left: 75px;
+  font-size: 15px;
+}
+
+.dish_name {
+  color: #0073bb;
+  font-weight: 550;
+  font-size: 18px;
+
+}
+
+.dish_name:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.itemPrice {
+  margin-left: 90%;
+  margin-top: -72px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.star {
+  fill: #aeaeae;
+  height: 15px;
+  width: 15px;
+}
+
+.numberReviews {
+  margin-top: -16px;
+  margin-left: 17px;
+  font-size: 13px;
+  color: #aeaeae;
+}
+
+.camera {
+  margin-top: -15px;
+  margin-left: 100px;
+  fill: #aeaeae;
+  height: 16px;
+  width: 16px;
+}
+
+.numberPhotosSquareDescription {
+  margin-top: -15px;
+  margin-left: 120px;
+  font-size: 13px;
+  color: #aeaeae;
+}
+
+.itemPrice {
+  margin-top: -55px;
+  font-size: 15px;
+}
+
+.itemDescriptionSquare {
+  padding-bottom: 5px;
+}
+
+.rating-1 {
+  height: 18px;
+  width: 18px;
+  fill: khaki;
+}
+.rating-2 {
+  height: 18px;
+  width: 18px;
+  fill: gold;
+}
+.rating-3 {
+  height: 18px;
+  width: 18px;
+  fill: darkorange;
+}
+.rating-4 {
+  height: 18px;
+  width: 18px;
+  fill: orangered;
+}
+.rating-5 {
+  height: 18px;
+  width: 18px;
+  fill: #d32323;
+}
+
+.no-rating {
+  height: 18px;
+  width: 18px;
+  fill: #d8d8d8;
+}
+
+.fiveStars {
+  position: absolute;
+}
+
+.fiveStars > div {
+  display: inline-block;
+}
+
+.aStar {
+  position: relative;
+  height:14px;
+  width: 14px;
+  fill: orangered;
+}
+
+.singleReview {
+  position: relative;
+}
+
+.smallDescription {
+  position: absolute;
+  margin-top: 20px;
+  margin-left: 120px;
+}
+
+.tinyPerson {
+  position: relative;
+  margin-left: 35px;
+  fill: orangered;
+}
+
+.friends {
+  position: relative;
+  margin-left: 58px;
+  font-size: 12px;
+  color: gray;
+  font-weight: 600;
+  margin-top: -19.05px;
+}
+
+.tinyStar {
+  position: relative;
+  margin-top: -14px;
+  margin-left: 80px;
+}
+
+.reviewStar {
+  position: relative;
+  margin-top: -14px;
+  margin-left: 100px;
+  font-size: 12px;
+  color: gray;
+  font-weight: 600;
+}
+
+.starBox {
+  position: relative;
+  margin-top: 10px;
+}
+
+.starBoxDate {
+  position: relative;
+  margin-left: 95px;
+  font-size: 14px;
+  color: gray;
+  font-weight: 400;
+}
+
+.productDescription {
+  position: relative;
+  margin-top: 10px;
+}
+

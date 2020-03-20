@@ -7,49 +7,34 @@ class PopularDishEntry extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            visiblePopUp: false
+
         };
         this.onClickHandler = this.onClickHandler.bind(this);
     }
 
     onClickHandler(e) {
-        this.setState({ visiblePopUp: !this.state.visiblePopUp })
-        
+        e.preventDefault();
+        this.props.buttonHandler(e, this.props.item, this.props.photos);
     }
 
     render() {
-        if (this.state.visiblePopUp) {
-            return (
-                <div>
-                    <div className="PopularDish">
-                        <img src={(this.props.photos.length > 0) ? this.props.photos[0].url : 'https://www.yorkshirecareequipment.com/wp-content/uploads/2018/09/no-image-available.jpg'}></img>
-                        <div className="PopularDishText">
-                            <span id="PopularDishName">{this.props.item.dish_name}</span>
-                            <br></br>
-                            <span> {this.props.photos.length} Photos &#183; {this.props.item.review_count} Reviews </span>
-                        </div>
-                    </div>
-                    <Modal>
-                        <div className="modal">
-                            <button className="close-button" onClick={this.onClickHandler}> <div id="closeModal">Close</div> &#x2715; </button>
-                            <PopUpComponent item={this.props.item} photos={this.props.photos} />
-                        </div>
-                    </Modal>
-                </div>
-            )
-        } else {
-            return (
-                <div className={"PopularDish "+ this.props.item.dish_id} onClick={this.onClickHandler}>
-                    <img src={(this.props.photos.length > 0) ? this.props.photos[0].url : 'https://www.yorkshirecareequipment.com/wp-content/uploads/2018/09/no-image-available.jpg'}></img>
-                    <div className="PopularDishText">
-                        <span id="PopularDishName">{this.props.item.dish_name}</span>
+        return (
+            <div onClick={this.onClickHandler}>
+                <div className="PopularDish popper">
+                    <img className="popper" src={(this.props.photos.length > 0) ? this.props.photos[0].url : 'https://www.yorkshirecareequipment.com/wp-content/uploads/2018/09/no-image-available.jpg'}></img>
+                    <div className="PopularDishText popper">
+                        <span id="PopularDishName popper">{this.props.item.dish_name}</span>
                         <br></br>
-                        <span> {this.props.photos.length} Photos &#183; {this.props.item.review_count} Reviews </span>
+                        <span className="popper"> {this.props.photos.length} Photos &#183; {this.props.item.review_count} Reviews </span>
                     </div>
-
                 </div>
-            )
-        }
+                <div className="PopularDishEntryPriceBox popper" >
+                    <div className="PopularDishEntryPrice popper">${this.props.item.price}</div>
+                </div>
+                    <div className="PopularDishEntryPrice1 popper">${this.props.item.price}</div>
+                    
+            </div>
+        )
     }
 }
 

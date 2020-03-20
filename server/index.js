@@ -3,7 +3,7 @@ const app = express();
 const path = require('path');
 const axios = require('axios');
 const bodyParser = require('body-parser');
-const companyNumber = 2; // this is how many companies there are;
+const companyNumber = 1; // this is how many companies there are;
 const controller = require('./controller.js');
 const port = 3000;
 
@@ -14,7 +14,7 @@ app.use('/', express.static(path.join(__dirname, '../client/dist/')))
 
 app.get('/getCompany', (req, res) => {
     var companyId = Math.floor(Math.random() * companyNumber) + 1;
-    res.send(companyId.toString());
+    controller.getCompany(companyId, res);
 })
 
 app.get('/getItems', (req, res) => {
@@ -34,13 +34,9 @@ app.get('/leftarrow.png', (req, res) => {
     res.sendFile('/Users/alexchung/Documents/HackReactor2020/popular-dishes/server/leftarrow.png');
 });
 
-app.get('/leftClearArrow.png', (req, res) => {
-    res.sendFile('/Users/alexchung/Documents/HackReactor2020/popular-dishes/server/leftClear.png');
-});
-
-app.get('/rightClearArrow.png', (req, res) => {
-    res.sendFile('/Users/alexchung/Documents/HackReactor2020/popular-dishes/server/clear.png');
-});
+app.get('/getReviews', (req, res) => {
+    controller.getReviews(req, res);
+})
 
 
 app.listen(port, () => {
