@@ -1,6 +1,15 @@
 import React from 'react';
 import Star from './star.jsx';
 import Camera from './camera.jsx';
+import StarType from '../components-style/TypesOfStars.jsx';
+import styled from 'styled-components';
+
+const StarLocation = styled.div`
+    margin-top: -2.75px;
+    position: relative;
+`
+
+
 
 const MenuItem = ({ data }) => {
     return (
@@ -16,7 +25,10 @@ const MenuItem = ({ data }) => {
                 <div className="itemDescriptionSquare">
                     {data.item.description}
                 </div>
-                <Star className="star" /> <div className="numberReviews">{(data.item.review_count > 1) ? data.item.review_count + " reviews" : data.item.review_count + " review"}</div>
+                <StarLocation> 
+                    <StarType rating="darknone" type="star" ><Star /> </StarType>
+                </StarLocation>
+                <div className="numberReviews">{(data.item.review_count > 1) ? data.item.review_count + " reviews" : data.item.review_count + " review"}</div>
                 { (data.photos.length) ?  <Camera className="camera" /> : null}
                 <div className="numberPhotosSquareDescription">{(data.photos.length > 1) ? data.photos.length + " photos" : (data.photos.length === 0) ? null : data.photos.length + " photo"}</div>
             </div>

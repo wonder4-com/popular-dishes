@@ -341,6 +341,7 @@ button {
   height: 30px;
   border-radius: 3px;
   overflow: hidden;
+  background-image: ;
 }
 
 .reviewCropper img {
@@ -538,7 +539,7 @@ button {
   padding-bottom: 5px;
 }
 
-.rating-1 {
+/* .rating-1 {
   height: 18px;
   width: 18px;
   fill: khaki;
@@ -568,26 +569,26 @@ button {
   height: 18px;
   width: 18px;
   fill: #d8d8d8;
-}
+} */
 
-.fiveStars {
+/* .fiveStars {
   position: absolute;
 }
 
 .fiveStars > div {
   display: inline-block;
-}
+}  */
 
-.aStar {
+/* .aStar {
   position: relative;
   height:14px;
   width: 14px;
   fill: orangered;
-}
+} */
 
-.singleReview {
+/* .singleReview {
   position: relative;
-}
+} */
 
 .smallDescription {
   position: absolute;
@@ -595,7 +596,7 @@ button {
   margin-left: 120px;
 }
 
-.tinyPerson {
+/* .tinyPerson {
   position: relative;
   margin-left: 35px;
   fill: orangered;
@@ -608,9 +609,9 @@ button {
   color: gray;
   font-weight: 600;
   margin-top: -19.05px;
-}
+} */
 
-.tinyStar {
+/* .tinyStar {
   position: relative;
   margin-top: -14px;
   margin-left: 80px;
@@ -642,4 +643,4 @@ button {
   position: relative;
   margin-top: 10px;
 }
-
+ */

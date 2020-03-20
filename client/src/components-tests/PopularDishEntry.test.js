@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import PopUpComponent from './PopUpComponent.jsx';
-import Review from './Review.jsx';
-import PhotoEntry from './PhotoEntry.jsx';
-import PopularDishEntry from './PopularDishEntry.jsx';
+import PopUpComponent from '../components/PopUpComponent.jsx';
+import Review from '../components/Review.jsx';
+import PhotoEntry from '../components/PhotoEntry.jsx';
+import PopularDishEntry from '../components/PopularDishEntry.jsx';
 
 var sampleItem = {
     name: 'Corn Cheese',

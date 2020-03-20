@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import PopUpComponent from './PopUpComponent.jsx';
-import Review from './Review.jsx';
-import PhotoEntry from './PhotoEntry.jsx';
-import PopularDishEntry from './PopularDishEntry.jsx';
-import PopularDishList from './PopularDishList.jsx';
+import PopUpComponent from '../components/PopUpComponent.jsx';
+import Review from '../components/Review.jsx';
+import PhotoEntry from '../components/PhotoEntry.jsx';
+import PopularDishEntry from '../components/PopularDishEntry.jsx';
+import PopularDishList from '../components/PopularDishList.jsx';
 
 // for making a mock event
 const mockEventGenerator = (str) => {

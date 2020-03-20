@@ -38,6 +38,9 @@ app.get('/getReviews', (req, res) => {
     controller.getReviews(req, res);
 })
 
+axios.get()
+
+
 
 app.listen(port, () => {
     console.log('server is running on', + port)

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import Review from './Review.jsx';
+import Review from '../components/Review.jsx';
 // data for one user
 var singleData =
 {
