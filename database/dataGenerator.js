@@ -1,3 +1,5 @@
+const aws = require('aws-sdk');
+const config = require('../config.json');
 const db = require('./index.js');
 const faker = require('faker');
 const axios = require('axios');
@@ -88,7 +90,35 @@ const makeUser = (imageUrl) => {
 }
 
 
-const generateData = () => {
+
+(async function () {
+    try {
+        aws.config.setPromisesDependency();
+        var photoBucket = 'photosthree';
+        var westRegion = 'us-west-1';
+        aws.config.update({
+            accessKeyId: config.aws.accessKey,
+            secretAccessKey: config.aws.secretKey,
+            region: westRegion
+        });
+
+        const s3 = new aws.S3();
+
+        const response = await s3.listObjectsV2({
+            Bucket: photoBucket
+        }).promise();
+
+        var arrayOfObjects = response.Contents;
+
+        const formatUrlWithKey = (object, region) => {
+            return 'https://photosthree.s3-' + region + '.amazonaws.com/' + object.Key;
+            return object.Key;
+        }
+
+        // for (var i = 0; i < arrayOfObjects.length; i++) {
+        //     var urlEnd = arrayOfObjects[i].Key;
+        //     console.log('https://photosthree.s3-' + westRegion + '.amazonaws.com/' + urlEnd);
+        // }
         for (var i = 0; i < numberOfCompanies; i++) {
             makeCompany()
                 .then(data => {
@@ -104,30 +134,66 @@ const generateData = () => {
                         makeDish(addDish, params)
                             .then(data => {
                                 var dish_id = data.insertId;
-                                var urlStart = 'https://loremflickr.com/1920/1080/';
-                                var urlTwo = urlStart + params[0];
                                 for (var o = 0; o < Math.floor(Math.random() * maxPhotos) + 1; o++) {
                                     var addPhoto = 'INSERT INTO photos (url, caption, popular_dish) values (?,?,?)';
-                                    // then we make a get request to lorem flickr
-                                    axios.get(urlTwo)
-                                        .then(data => {
-                                            // we get back a photo, but what we want is the url that we were redirected to
-                                            var responseUrl = data.request.res.responseUrl;
-                                            var photoParams = [responseUrl, faker.lorem.words(), dish_id];
-                                            // then we use that url from the response the url for a photo
-                                            makePhoto(addPhoto, photoParams)
-                                        })
-                                        .catch(err => {
-                                            console.log('Attempt at making phtoto for dish_id of:', dish_id)
-                                        })
-                                        
+                                    var randomObject = arrayOfObjects[Math.floor(Math.random() * arrayOfObjects.length)];
+                                    var photoUrl = formatUrlWithKey(randomObject, westRegion);
+                                    var photoParams = [photoUrl, faker.lorem.words(), dish_id];
+                                    makePhoto(addPhoto, photoParams)
                                 }
                             }
-                        );
+                            );
                     }
                 })
         }
-}
+
+    } catch (e) {
+        console.log('our error', e);
+    }
+
+})();
+
+
+// const generateData = () => {
+//         for (var i = 0; i < numberOfCompanies; i++) {
+//             makeCompany()
+//                 .then(data => {
+//                     // after making one company we get it's restaurantid
+//                     var restaurantId = data.insertId;
+//                     console.log('made restaurant with restaurant_id', restaurantId)
+//                     for (var i = 0; i < maxDishes; i++) {
+//                         var reviewCount = Math.round(Math.random() * maxReviews);
+//                         console.log('----------------------------------------', reviewCount);
+//                         var params = [faker.lorem.word(), faker.random.number(), faker.lorem.words(), reviewCount, restaurantId]
+//                         var addDish = 'INSERT INTO PopularDishes (dish_name, price, description, review_count, restaurant) values (?,?,?,?,?)';
+//                         // then we make multiple dishes with the restaurantid as it's foreign key
+//                         makeDish(addDish, params)
+//                             .then(data => {
+//                                 var dish_id = data.insertId;
+//                                 var urlStart = 'https://loremflickr.com/1920/1080/';
+//                                 var urlTwo = urlStart + params[0];
+//                                 for (var o = 0; o < Math.floor(Math.random() * maxPhotos) + 1; o++) {
+//                                     var addPhoto = 'INSERT INTO photos (url, caption, popular_dish) values (?,?,?)';
+//                                     // then we make a get request to lorem flickr
+//                                     axios.get(urlTwo)
+//                                         .then(data => {
+//                                             // we get back a photo, but what we want is the url that we were redirected to
+//                                             var responseUrl = data.request.res.responseUrl;
+//                                             var photoParams = [responseUrl, faker.lorem.words(), dish_id];
+//                                             // then we use that url from the response the url for a photo
+//                                             makePhoto(addPhoto, photoParams)
+//                                         })
+//                                         .catch(err => {
+//                                             console.log('Attempt at making phtoto for dish_id of:', dish_id)
+//                                         })
+                                        
+//                                 }
+//                             }
+//                         );
+//                     }
+//                 })
+//         }
+// }
 
 setTimeout(() => {
     db.query('SELECT * FROM PopularDishes', (err, data) => {
@@ -162,7 +228,7 @@ setTimeout(() => {
     })
 }, 5000)
 
-generateData();
+// generateData();
 
 // var selectiveQuery = 'SELECT a.*, b.* FROM reviews a INNER JOIN users b ON a.userid = b.userid WHERE a.dish_id = 1';
 // var selectPhotos = 'SELECT a.*, b.* FROM photos a INNER JOIN PopularDishes b ON a.popular_dish = b.dish_id WHERE a.popular_dish = 5';
