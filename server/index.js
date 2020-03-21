@@ -38,7 +38,7 @@ app.get('/getReviews', (req, res) => {
     controller.getReviews(req, res);
 })
 
-axios.get()
+
 
 
 
