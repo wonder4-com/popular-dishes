@@ -5,7 +5,7 @@ const faker = require('faker');
 const axios = require('axios');
 
 // how many companies do we want to be made
-const numberOfCompanies = 1;
+const numberOfCompanies = 10;
 
 // maxDishes in a company
 var maxDishes = 9;
@@ -14,10 +14,11 @@ var maxDishes = 9;
 var maxReviews = 100;
 
 // max number of photos per dish
-var maxPhotos = 10;
+var maxPhotos = 20;
 
-// number of users for one restaurant
-var maxUsers = 40;
+// region and bucket for aws
+var photoBucket = 'photosthree';
+var westRegion = 'us-west-1';
 
 // function for making one company
 const makeCompany = () => {
@@ -97,8 +98,6 @@ const formatUrlWithKey = (object, region) => {
 (async function () {
     try {
         aws.config.setPromisesDependency();
-        var photoBucket = 'photosthree';
-        var westRegion = 'us-west-1';
         aws.config.update({
             accessKeyId: config.aws.accessKey,
             secretAccessKey: config.aws.secretKey,
@@ -109,15 +108,21 @@ const formatUrlWithKey = (object, region) => {
 
         const response = await s3.listObjectsV2({
             Bucket: photoBucket,
-            Prefix: 'Random Foods'
+            Prefix: 'Random Foods' // folder names can be changed here
         }).promise();
 
         const response2 = await s3.listObjectsV2({
             Bucket: photoBucket,
-            Prefix: 'Random Foods 2'
+            Prefix: 'Random Foods 2' //folder names can be changed here
+        }).promise();
+
+        const response3 = await s3.listObjectsV2({
+            Bucket: photoBucket,
+            Prefix: 'main-sprites' // had three folders, but you should ideally have two folders
         }).promise();
 
         var arrayOfObjects = response.Contents.concat(response2.Contents)
+        var arrayOfProfiles = response3.Contents;
 
         for (var i = 0; i < numberOfCompanies; i++) {
             makeCompany()
@@ -141,6 +146,20 @@ const formatUrlWithKey = (object, region) => {
                                     var photoParams = [photoUrl, faker.lorem.words(), dish_id];
                                     makePhoto(addPhoto, photoParams)
                                 }
+
+                                for (var k = 0; k < params[3]; k++) {
+                                    var imageUrl = formatUrlWithKey(arrayOfProfiles[Math.floor(Math.random() * arrayOfObjects.length)], westRegion);
+                                    makeUser(imageUrl)
+                                        .then((response => {
+                                            var userid = response.insertId;
+                                            var reviewParams = [userid, faker.date.past(1), Math.ceil(Math.random() * 5), faker.lorem.sentences(), dish_id];
+                                            makeReview(reviewParams)
+                                                .then(() => {
+                                                    console.log('reviews have been made');
+                                                })
+                                    }))
+                                    .catch(err => console.log('user with that username already exists -----------------------------'));
+                                }
                             }
                             );
                     }
@@ -153,57 +172,52 @@ const formatUrlWithKey = (object, region) => {
 
 })();
 
-setTimeout(() => {
-    (async function () {
-        try {
-            aws.config.setPromisesDependency();
-            var photoBucket = 'photosthree';
-            var westRegion = 'us-west-1';
-            aws.config.update({
-                accessKeyId: config.aws.accessKey,
-                secretAccessKey: config.aws.secretKey,
-                region: westRegion
-            });
+// setTimeout(() => {
+//     (async function () {
+//         try {
+//             aws.config.setPromisesDependency();
+//             var photoBucket = 'photosthree';
+//             var westRegion = 'us-west-1';
+//             aws.config.update({
+//                 accessKeyId: config.aws.accessKey,
+//                 secretAccessKey: config.aws.secretKey,
+//                 region: westRegion
+//             });
 
-            const s3 = new aws.S3();
+//             const s3 = new aws.S3();
 
-            const response3 = await s3.listObjectsV2({
-                Bucket: photoBucket,
-                Prefix: 'main-sprites'
-            }).promise();
+//             const response3 = await s3.listObjectsV2({
+//                 Bucket: photoBucket,
+//                 Prefix: 'main-sprites'
+//             }).promise();
 
-            var arrayOfObjects = response3.Contents;
+//             var arrayOfObjects = response3.Contents;
 
-            const formatUrlWithKey = (object, region) => {
-                return 'https://photosthree.s3-' + region + '.amazonaws.com/' + object.Key;
-                return object.Key;
-            };
+//             db.query('SELECT * FROM PopularDishes', (err, data) => {
+//                 var dishes = data;
+//                     for (var i = 0; i < dishes.length; i++) {
+//                         // making users after dish is made
+//                         for (var k = 0; k < dishes[i].review_count; k++) {
+//                             var imageUrl = formatUrlWithKey(arrayOfObjects[Math.floor(Math.random() * arrayOfObjects.length)], westRegion);
+//                             var idOfDish = dishes[i].dish_id
+//                                     makeUser(imageUrl)
+//                                         .then((response => {
+//                                             var userid = response.insertId;
+//                                             var reviewParams = [userid, faker.date.past(1), Math.ceil(Math.random() * 5), faker.lorem.sentences(), idOfDish];
+//                                             makeReview(reviewParams)
+//                                                 .then(() => {
+//                                                     console.log('reviews have been made');
+//                                                 })
+//                                         }))
+//                         }
+//                     }
+//             })
 
-            db.query('SELECT * FROM PopularDishes', (err, data) => {
-                var dishes = data;
-                    for (var i = 0; i < dishes.length; i++) {
-                        // making users after dish is made
-                        for (var k = 0; k < dishes[i].review_count; k++) {
-                            var imageUrl = formatUrlWithKey(arrayOfObjects[Math.floor(Math.random() * arrayOfObjects.length)], westRegion);
-                            var idOfDish = dishes[i].dish_id
-                                    makeUser(imageUrl)
-                                        .then((response => {
-                                            var userid = response.insertId;
-                                            var reviewParams = [userid, faker.date.past(1), Math.ceil(Math.random() * 5), faker.lorem.sentences(), idOfDish];
-                                            makeReview(reviewParams)
-                                                .then(() => {
-                                                    console.log('reviews have been made');
-                                                })
-                                        }))
-                        }
-                    }
-            })
-
-        } catch (e) {
-            console.log('our error', e);
-        }
-    })();
-}, 5000)
+//         } catch (e) {
+//             console.log('our error', e);
+//         }
+//     })();
+// }, 5000)
 
 // generateData();
 

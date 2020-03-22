@@ -3,7 +3,7 @@ const app = express();
 const path = require('path');
 const axios = require('axios');
 const bodyParser = require('body-parser');
-const companyNumber = 1; // this is how many companies there are;
+const companyNumber = 10; // this is how many companies there are;
 const controller = require('./controller.js');
 const port = 3000;
 
