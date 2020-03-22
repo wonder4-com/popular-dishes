@@ -89,7 +89,10 @@ const makeUser = (imageUrl) => {
     })
 }
 
-
+const formatUrlWithKey = (object, region) => {
+    return 'https://photosthree.s3-' + region + '.amazonaws.com/' + object.Key;
+    return object.Key;
+}
 
 (async function () {
     try {
@@ -105,20 +108,17 @@ const makeUser = (imageUrl) => {
         const s3 = new aws.S3();
 
         const response = await s3.listObjectsV2({
-            Bucket: photoBucket
+            Bucket: photoBucket,
+            Prefix: 'Random Foods'
         }).promise();
 
-        var arrayOfObjects = response.Contents;
+        const response2 = await s3.listObjectsV2({
+            Bucket: photoBucket,
+            Prefix: 'Random Foods 2'
+        }).promise();
 
-        const formatUrlWithKey = (object, region) => {
-            return 'https://photosthree.s3-' + region + '.amazonaws.com/' + object.Key;
-            return object.Key;
-        }
+        var arrayOfObjects = response.Contents.concat(response2.Contents)
 
-        // for (var i = 0; i < arrayOfObjects.length; i++) {
-        //     var urlEnd = arrayOfObjects[i].Key;
-        //     console.log('https://photosthree.s3-' + westRegion + '.amazonaws.com/' + urlEnd);
-        // }
         for (var i = 0; i < numberOfCompanies; i++) {
             makeCompany()
                 .then(data => {
@@ -153,79 +153,56 @@ const makeUser = (imageUrl) => {
 
 })();
 
-
-// const generateData = () => {
-//         for (var i = 0; i < numberOfCompanies; i++) {
-//             makeCompany()
-//                 .then(data => {
-//                     // after making one company we get it's restaurantid
-//                     var restaurantId = data.insertId;
-//                     console.log('made restaurant with restaurant_id', restaurantId)
-//                     for (var i = 0; i < maxDishes; i++) {
-//                         var reviewCount = Math.round(Math.random() * maxReviews);
-//                         console.log('----------------------------------------', reviewCount);
-//                         var params = [faker.lorem.word(), faker.random.number(), faker.lorem.words(), reviewCount, restaurantId]
-//                         var addDish = 'INSERT INTO PopularDishes (dish_name, price, description, review_count, restaurant) values (?,?,?,?,?)';
-//                         // then we make multiple dishes with the restaurantid as it's foreign key
-//                         makeDish(addDish, params)
-//                             .then(data => {
-//                                 var dish_id = data.insertId;
-//                                 var urlStart = 'https://loremflickr.com/1920/1080/';
-//                                 var urlTwo = urlStart + params[0];
-//                                 for (var o = 0; o < Math.floor(Math.random() * maxPhotos) + 1; o++) {
-//                                     var addPhoto = 'INSERT INTO photos (url, caption, popular_dish) values (?,?,?)';
-//                                     // then we make a get request to lorem flickr
-//                                     axios.get(urlTwo)
-//                                         .then(data => {
-//                                             // we get back a photo, but what we want is the url that we were redirected to
-//                                             var responseUrl = data.request.res.responseUrl;
-//                                             var photoParams = [responseUrl, faker.lorem.words(), dish_id];
-//                                             // then we use that url from the response the url for a photo
-//                                             makePhoto(addPhoto, photoParams)
-//                                         })
-//                                         .catch(err => {
-//                                             console.log('Attempt at making phtoto for dish_id of:', dish_id)
-//                                         })
-                                        
-//                                 }
-//                             }
-//                         );
-//                     }
-//                 })
-//         }
-// }
-
 setTimeout(() => {
-    db.query('SELECT * FROM PopularDishes', (err, data) => {
-        var dishes = data;
-        if (err) {
-            console.log(err)
-        } else {
-            for (var i = 0; i < dishes.length; i++) {
-                // making users after dish is made
-                for (var k = 0; k < dishes[i].review_count; k++) {
-                    var idOfDish = dishes[i].dish_id
-                    axios.get('http://loremflickr.com/200/200/pokemon')
-                        .then(response => {
-                            var imageUrl = response.request.res.responseUrl;
-                            makeUser(imageUrl)
-                                .then((response => {
-                                    var userid = response.insertId;
-                                    console.log(userid)
-                                    var reviewParams = [userid, faker.date.past(1), Math.ceil(Math.random() * 5), faker.lorem.sentences(), idOfDish];
-                                    makeReview(reviewParams)
-                                        .then(() => {
-                                            console.log('reviews have been made');
-                                        })
-                                }))
-                        })
-                        .catch(err => {
-                            console.log('user could not be made');
-                        })
-                }
-            }
+    (async function () {
+        try {
+            aws.config.setPromisesDependency();
+            var photoBucket = 'photosthree';
+            var westRegion = 'us-west-1';
+            aws.config.update({
+                accessKeyId: config.aws.accessKey,
+                secretAccessKey: config.aws.secretKey,
+                region: westRegion
+            });
+
+            const s3 = new aws.S3();
+
+            const response3 = await s3.listObjectsV2({
+                Bucket: photoBucket,
+                Prefix: 'main-sprites'
+            }).promise();
+
+            var arrayOfObjects = response3.Contents;
+
+            const formatUrlWithKey = (object, region) => {
+                return 'https://photosthree.s3-' + region + '.amazonaws.com/' + object.Key;
+                return object.Key;
+            };
+
+            db.query('SELECT * FROM PopularDishes', (err, data) => {
+                var dishes = data;
+                    for (var i = 0; i < dishes.length; i++) {
+                        // making users after dish is made
+                        for (var k = 0; k < dishes[i].review_count; k++) {
+                            var imageUrl = formatUrlWithKey(arrayOfObjects[Math.floor(Math.random() * arrayOfObjects.length)], westRegion);
+                            var idOfDish = dishes[i].dish_id
+                                    makeUser(imageUrl)
+                                        .then((response => {
+                                            var userid = response.insertId;
+                                            var reviewParams = [userid, faker.date.past(1), Math.ceil(Math.random() * 5), faker.lorem.sentences(), idOfDish];
+                                            makeReview(reviewParams)
+                                                .then(() => {
+                                                    console.log('reviews have been made');
+                                                })
+                                        }))
+                        }
+                    }
+            })
+
+        } catch (e) {
+            console.log('our error', e);
         }
-    })
+    })();
 }, 5000)
 
 // generateData();
