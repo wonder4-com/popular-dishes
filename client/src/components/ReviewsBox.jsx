@@ -1,14 +1,11 @@
 import React from 'react';
 import Review from './Review.jsx';
+import { ReviewsLength } from '../components-style/ReviewsBox-style.jsx';
 
 const ReviewsBox = ({ reviews }) => (
     <div>
-    <div className="reviewsLength">
-            Reviews ({reviews.length})
-    </div>
-        <div className="ReviewsInColumn">
-        {reviews.map((review) => <Review data={review}/>)}
-        </div>
+    <ReviewsLength>Reviews ({reviews.length})</ReviewsLength>
+    {reviews.map((review) => <Review data={review}/>)}
     </div>
 );
 

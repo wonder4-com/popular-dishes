@@ -1,10 +1,10 @@
 import React from "react";
 
 
-const Star = (props) => {
+const Star = () => {
 
     return (
-        <div className={props.className} >
+        <div >
             <svg viewBox="0 0 160 160">
                 <path d="M110.6 0h-76.9c-18.6 0-33.7 15.1-33.7 33.7v76.9c0 18.6 15.1 33.7 33.7 33.7h76.9c18.6 0 33.7-15.1 33.7-33.7v-76.9c0-18.6-15.1-33.7-33.7-33.7z" />
                 <path d="M33.3,0.3C14.7,0.3-0.4,15.4-0.4,34V111c0,18.6,15.1,33.7,33.7,33.7h38.3V0.3H33.3z" />
@@ -14,6 +14,5 @@ const Star = (props) => {
 
     )
 }
-
 
 export default Star;

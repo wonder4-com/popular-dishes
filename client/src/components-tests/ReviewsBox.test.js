@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow,mount } from 'enzyme';
-import ReviewsBox from './ReviewsBox.jsx';
-import Review from './Review.jsx';
+import ReviewsBox from '../components/ReviewsBox.jsx';
+import Review from '../components/Review.jsx';
 
 
 var sampleData = [

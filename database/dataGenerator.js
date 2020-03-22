@@ -1,9 +1,11 @@
+const aws = require('aws-sdk');
+const config = require('../config.json');
 const db = require('./index.js');
 const faker = require('faker');
 const axios = require('axios');
 
 // how many companies do we want to be made
-const numberOfCompanies = 1;
+const numberOfCompanies = 10;
 
 // maxDishes in a company
 var maxDishes = 9;
@@ -12,10 +14,11 @@ var maxDishes = 9;
 var maxReviews = 100;
 
 // max number of photos per dish
-var maxPhotos = 10;
+var maxPhotos = 20;
 
-// number of users for one restaurant
-var maxUsers = 40;
+// region and bucket for aws
+var photoBucket = 'photosthree';
+var westRegion = 'us-west-1';
 
 // function for making one company
 const makeCompany = () => {
@@ -87,8 +90,40 @@ const makeUser = (imageUrl) => {
     })
 }
 
+const formatUrlWithKey = (object, region) => {
+    return 'https://photosthree.s3-' + region + '.amazonaws.com/' + object.Key;
+    return object.Key;
+}
 
-const generateData = () => {
+(async function () {
+    try {
+        aws.config.setPromisesDependency();
+        aws.config.update({
+            accessKeyId: config.aws.accessKey,
+            secretAccessKey: config.aws.secretKey,
+            region: westRegion
+        });
+
+        const s3 = new aws.S3();
+
+        const response = await s3.listObjectsV2({
+            Bucket: photoBucket,
+            Prefix: 'Random Foods' // folder names can be changed here
+        }).promise();
+
+        const response2 = await s3.listObjectsV2({
+            Bucket: photoBucket,
+            Prefix: 'Random Foods 2' //folder names can be changed here
+        }).promise();
+
+        const response3 = await s3.listObjectsV2({
+            Bucket: photoBucket,
+            Prefix: 'main-sprites' // had three folders, but you should ideally have two folders
+        }).promise();
+
+        var arrayOfObjects = response.Contents.concat(response2.Contents)
+        var arrayOfProfiles = response3.Contents;
+
         for (var i = 0; i < numberOfCompanies; i++) {
             makeCompany()
                 .then(data => {
@@ -104,65 +139,87 @@ const generateData = () => {
                         makeDish(addDish, params)
                             .then(data => {
                                 var dish_id = data.insertId;
-                                var urlStart = 'https://loremflickr.com/1920/1080/';
-                                var urlTwo = urlStart + params[0];
                                 for (var o = 0; o < Math.floor(Math.random() * maxPhotos) + 1; o++) {
                                     var addPhoto = 'INSERT INTO photos (url, caption, popular_dish) values (?,?,?)';
-                                    // then we make a get request to lorem flickr
-                                    axios.get(urlTwo)
-                                        .then(data => {
-                                            // we get back a photo, but what we want is the url that we were redirected to
-                                            var responseUrl = data.request.res.responseUrl;
-                                            var photoParams = [responseUrl, faker.lorem.words(), dish_id];
-                                            // then we use that url from the response the url for a photo
-                                            makePhoto(addPhoto, photoParams)
-                                        })
-                                        .catch(err => {
-                                            console.log('Attempt at making phtoto for dish_id of:', dish_id)
-                                        })
-                                        
+                                    var randomObject = arrayOfObjects[Math.floor(Math.random() * arrayOfObjects.length)];
+                                    var photoUrl = formatUrlWithKey(randomObject, westRegion);
+                                    var photoParams = [photoUrl, faker.lorem.words(), dish_id];
+                                    makePhoto(addPhoto, photoParams)
+                                }
+
+                                for (var k = 0; k < params[3]; k++) {
+                                    var imageUrl = formatUrlWithKey(arrayOfProfiles[Math.floor(Math.random() * arrayOfObjects.length)], westRegion);
+                                    makeUser(imageUrl)
+                                        .then((response => {
+                                            var userid = response.insertId;
+                                            var reviewParams = [userid, faker.date.past(1), Math.ceil(Math.random() * 5), faker.lorem.sentences(), dish_id];
+                                            makeReview(reviewParams)
+                                                .then(() => {
+                                                    console.log('reviews have been made');
+                                                })
+                                    }))
+                                    .catch(err => console.log('user with that username already exists -----------------------------'));
                                 }
                             }
-                        );
+                            );
                     }
                 })
         }
-}
 
-setTimeout(() => {
-    db.query('SELECT * FROM PopularDishes', (err, data) => {
-        var dishes = data;
-        if (err) {
-            console.log(err)
-        } else {
-            for (var i = 0; i < dishes.length; i++) {
-                // making users after dish is made
-                for (var k = 0; k < dishes[i].review_count; k++) {
-                    var idOfDish = dishes[i].dish_id
-                    axios.get('http://loremflickr.com/200/200/pokemon')
-                        .then(response => {
-                            var imageUrl = response.request.res.responseUrl;
-                            makeUser(imageUrl)
-                                .then((response => {
-                                    var userid = response.insertId;
-                                    console.log(userid)
-                                    var reviewParams = [userid, faker.date.past(1), Math.ceil(Math.random() * 5), faker.lorem.sentences(), idOfDish];
-                                    makeReview(reviewParams)
-                                        .then(() => {
-                                            console.log('reviews have been made');
-                                        })
-                                }))
-                        })
-                        .catch(err => {
-                            console.log('user could not be made');
-                        })
-                }
-            }
-        }
-    })
-}, 5000)
+    } catch (e) {
+        console.log('our error', e);
+    }
 
-generateData();
+})();
+
+// setTimeout(() => {
+//     (async function () {
+//         try {
+//             aws.config.setPromisesDependency();
+//             var photoBucket = 'photosthree';
+//             var westRegion = 'us-west-1';
+//             aws.config.update({
+//                 accessKeyId: config.aws.accessKey,
+//                 secretAccessKey: config.aws.secretKey,
+//                 region: westRegion
+//             });
+
+//             const s3 = new aws.S3();
+
+//             const response3 = await s3.listObjectsV2({
+//                 Bucket: photoBucket,
+//                 Prefix: 'main-sprites'
+//             }).promise();
+
+//             var arrayOfObjects = response3.Contents;
+
+//             db.query('SELECT * FROM PopularDishes', (err, data) => {
+//                 var dishes = data;
+//                     for (var i = 0; i < dishes.length; i++) {
+//                         // making users after dish is made
+//                         for (var k = 0; k < dishes[i].review_count; k++) {
+//                             var imageUrl = formatUrlWithKey(arrayOfObjects[Math.floor(Math.random() * arrayOfObjects.length)], westRegion);
+//                             var idOfDish = dishes[i].dish_id
+//                                     makeUser(imageUrl)
+//                                         .then((response => {
+//                                             var userid = response.insertId;
+//                                             var reviewParams = [userid, faker.date.past(1), Math.ceil(Math.random() * 5), faker.lorem.sentences(), idOfDish];
+//                                             makeReview(reviewParams)
+//                                                 .then(() => {
+//                                                     console.log('reviews have been made');
+//                                                 })
+//                                         }))
+//                         }
+//                     }
+//             })
+
+//         } catch (e) {
+//             console.log('our error', e);
+//         }
+//     })();
+// }, 5000)
+
+// generateData();
 
 // var selectiveQuery = 'SELECT a.*, b.* FROM reviews a INNER JOIN users b ON a.userid = b.userid WHERE a.dish_id = 1';
 // var selectPhotos = 'SELECT a.*, b.* FROM photos a INNER JOIN PopularDishes b ON a.popular_dish = b.dish_id WHERE a.popular_dish = 5';

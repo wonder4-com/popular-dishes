@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import PhotoEntry from './PhotoEntry.jsx';
+import PhotoEntry from '../components/PhotoEntry.jsx';
 
 
 var sampleData =

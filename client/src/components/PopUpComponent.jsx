@@ -1,6 +1,14 @@
 import React from 'react';
 import PhotoBox from './PhotoBox.jsx';
 import ReviewsBox from './ReviewsBox.jsx';
+import { 
+    SmallDescriptionFormatter,
+    SmallDescriptionBorder, 
+    ItemDescription, 
+    ReviewsFormatter,
+    Name,
+    Price
+} from '../components-style/PopupComponent-style.jsx';
 
 class PopUpComponent extends React.Component {
     constructor(props) {
@@ -15,28 +23,20 @@ class PopUpComponent extends React.Component {
 
     render() {
         return (
-            <div className="itemDescription">
+            <ItemDescription>
                 <PhotoBox photos={this.props.photos} ref={this.photoBoxElement} />
-                <div className="smallDescription">
-                    <div>
-                        <div id="dishName">{this.props.item.dish_name}</div>
-                        <div id="dishPrice">${this.props.item.price}.00</div>
-                    </div>
-                </div>
-                <div className="reviewsBox">
-                    <div className="smallDescriptionBorder">
-                        <p>{this.props.item.description}</p>
-                    </div>
+                <SmallDescriptionFormatter>
+                        <Name>{this.props.item.dish_name}</Name>
+                        <Price>${this.props.item.price}.00</Price>
+                </SmallDescriptionFormatter>
+                <ReviewsFormatter>
+                    <SmallDescriptionBorder> <p>{this.props.item.description}</p> </SmallDescriptionBorder>
                     <ReviewsBox reviews={this.props.reviews} />
-                </div>
-            </div>
+                </ReviewsFormatter>
+            </ItemDescription>
 
         )
     }
 }
 
 export default PopUpComponent;
-
-
-// put back into line 10 later
-//<ReviewsBox reviews={reviews} />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import PhotoBox from './PhotoBox.jsx';
-import PhotoEntry from './PhotoEntry.jsx';
+import PhotoBox from '../components/PhotoBox.jsx';
+import PhotoEntry from '../components/PhotoEntry.jsx';
 
 // data for one multiple photos
 var photos = [

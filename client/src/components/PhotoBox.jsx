@@ -1,5 +1,6 @@
 import React from 'react';
-import SmallDescription from './smallDescription.jsx';
+import $ from 'jquery';
+import { PhotoBoxFormat, PhotoImage, LeftArrow, RightArrow, Caption, Caption2, CaptionCropper, Photos } from '../components-style/PhotoBox-style.jsx';
 
 class PhotoBox extends React.Component {
     constructor(props) {
@@ -9,6 +10,7 @@ class PhotoBox extends React.Component {
         };
         this.onClickHandler = this.onClickHandler.bind(this);
         this.resetCurrent = this.resetCurrent.bind(this);
+        this.handleBlackSpace = this.handleBlackSpace.bind(this);
     }
 
     resetCurrent() {
@@ -32,35 +34,41 @@ class PhotoBox extends React.Component {
         }
     }
 
+    handleBlackSpace(url) {
+        var temporaryImage = new Image()
+        temporaryImage.src = url;
+        $(temporaryImage).one('load', function () {
+            var orgWidth = temporaryImage.width;
+            var orgHeight = temporaryImage.height;
+            if ((orgWidth/orgHeight) > (800/600)) {
+                return 'tooTall';
+            } 
+        });
+    }
+
     render() {
         return (
             <div>
                 {(this.props.photos.length > 0) ?
                     <div>
-                        <div className="photoBox">
-                            <div className="cropper">
-                                <img src={this.props.photos[this.state.currentPhoto].url} className="photo"></img>
-                            </div>
-                        </div>
-                        <button onClick={this.onClickHandler} className="leftPhoto"></button>
-                        <button onClick={this.onClickHandler} className="rightPhoto button right"></button>
-                        <div className="photoCaption">
-                            <div>{this.props.photos[this.state.currentPhoto].caption} </div>
-                        </div>
-                        <div id="photoCount">{this.state.currentPhoto + 1} of {this.props.photos.length}</div>
+                        <PhotoBoxFormat>
+                                <PhotoImage src={this.props.photos[this.state.currentPhoto].url} size={this.handleBlackSpace(this.props.photos[this.state.currentPhoto].url)}></PhotoImage>
+                        </PhotoBoxFormat>
+                        <LeftArrow onClick={this.onClickHandler}/>
+                        <RightArrow onClick={this.onClickHandler} className="button right"/>
+                        <CaptionCropper>
+                            <Caption2>{this.props.photos[this.state.currentPhoto].caption}</Caption2>
+                        </CaptionCropper>
+                        <Caption>{this.props.photos[this.state.currentPhoto].caption}</Caption>
+                        <Photos>{this.state.currentPhoto + 1} of {this.props.photos.length}</Photos>
                     </div> :
                     <div>
-                        <div className="photoBox">
-                            <div className="cropper">
-                                <img src='https://www.yorkshirecareequipment.com/wp-content/uploads/2018/09/no-image-available.jpg' className="photo"></img>
-                            </div>
-                        </div>
-                        <button onClick={this.onClickHandler} className="leftPhoto"></button>
-                        <button onClick={this.onClickHandler} className="rightPhoto button right"></button>
-                        <div className="photoCaption">
-                            <div> </div>
-                        </div>
-                        <div id="photoCount">0 of 0</div>
+                        <PhotoBoxFormat>
+                                <PhotoImage src='https://www.yorkshirecareequipment.com/wp-content/uploads/2018/09/no-image-available.jpg' className="photo"></PhotoImage>
+                        </PhotoBoxFormat>
+                        <LeftArrow onClick={this.onClickHandler}/>
+                        <RightArrow onClick={this.onClickHandler}/>
+                        <Photos>0 of 0</Photos>
                     </div>
                 }
             </div>
