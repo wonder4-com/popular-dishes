@@ -3,6 +3,21 @@ import PopularDishList from './PopularDishList.jsx'
 import axios from 'axios';
 import Modal from './modal.jsx';
 import FullMenu from './fullMenu.jsx';
+import { CloseButton, ModalStyle, CloseFormat } from '../components-style/Modal-Style.jsx';
+import { AppBody, Title, AllItems } from '../components-style/App-style.jsx';
+
+// import { ThemeProvider } from 'styled-components';
+
+
+
+// const theme = {
+//     'font-family': ['Arial', 'Helvetica', 'sans-serif'],
+//     "white-space": 'normal'
+// };
+
+// const Theme = ({ children }) => (
+//     <ThemeProvider theme={theme}>{children}</ThemeProvider>
+// );
 
 class App extends React.Component {
     constructor(props) {
@@ -61,12 +76,13 @@ class App extends React.Component {
                 this.getItems(response.data[0].restaurant_id); // with the restaurant_id get the popular items
             })
             .then(() => {
-                this.setState({ doneLoading: true });
+                    this.setState({ doneLoading: true });
             })
     }
 
     outsideModalHandler(e) {
-        if (e.target.className === 'modal') {
+        console.log('clicked from the app', e.target)
+        if (e.target.className.includes('modal')) {
             this.setState({visibleMenu: false});
         }
     }
@@ -74,23 +90,23 @@ class App extends React.Component {
     render() {
         // <Star />
         return (
-            <div>
-                {(this.state.doneLoading) ?
-                    <div>
-                        <h3 id="ComponentTitle">Popular Dishes</h3> <div id="allItems" onClick={this.showMenu}> View Full Menu </div>
-                        <PopularDishList popularDishes={this.state.items} />
-                        
-                            {(this.state.visibleMenu) ? <Modal>
-                                <div className="modal" onClick={this.outsideModalHandler}>
-                                    <button className="close-button" onClick={this.showMenu}> <div id="closeModal">Close</div> &#x2715; </button>                        
-                                </div>
-                                <FullMenu restaurant={this.state.restaurant.restaurant_name} items={this.state.items}/>
-                            </Modal>
-                                : null}
-                        
-                    </div>
-                    : null}
-            </div>
+            <AppBody>
+                    {(this.state.doneLoading) ?
+                        <div>
+                            <Title>Popular Dishes</Title> 
+                            <AllItems onClick={this.showMenu}> View Full Menu </AllItems>
+                            <PopularDishList popularDishes={this.state.items} />
+                                {(this.state.visibleMenu) ? <Modal>
+                                    <ModalStyle className="modal" onClick={this.outsideModalHandler}>
+                                        <CloseButton className="close-button" onClick={this.showMenu}> <CloseFormat id="closeModal">Close</CloseFormat> &#x2715; </CloseButton>                        
+                                    </ModalStyle>
+                                    <FullMenu restaurant={this.state.restaurant.restaurant_name} items={this.state.items}/>
+                                </Modal>
+                                    : null}
+                            
+                        </div>
+                        : null}
+            </AppBody>
         )
     }
 }

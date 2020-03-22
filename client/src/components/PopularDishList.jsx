@@ -3,6 +3,10 @@ import PopularDishEntry from './PopularDishEntry.jsx';
 import $ from 'jquery';
 import Modal from './modal.jsx';
 import PopUpComponent from './PopUpComponent.jsx';
+import { Slider, Slide, GoLeft, GoRight, NextDish, LastDish, DishArrowRight, DishArrowLeft } from '../components-style/PopularDishList-style.jsx';
+import { CloseButton, ModalStyle, CloseFormat, DishButtons } from '../components-style/Modal-Style.jsx';
+
+const notFound = 'https://www.yorkshirecareequipment.com/wp-content/uploads/2018/09/no-image-available.jpg';
 
 class PopularDishList extends React.Component {
     constructor(props) {
@@ -52,7 +56,7 @@ class PopularDishList extends React.Component {
                     this.setState({ index: this.state.index + 1 }); // setting index to one more
                 } else {
                     this.setState({ item: this.props.popularDishes[this.state.index + 1].item }); //setting next item
-                    this.setState({ photos: [{url: 'https://www.yorkshirecareequipment.com/wp-content/uploads/2018/09/no-image-available.jpg'}] }); //setting next photos
+                    this.setState({ photos: [{url: notFound}] }); //setting next photos
                     this.setState({ index: this.state.index + 1 }); // setting index to one more
                 }
             } else if (e.target.id === "previousDish") {
@@ -63,14 +67,14 @@ class PopularDishList extends React.Component {
                     this.setState({ index: this.state.index - 1 }); // setting index to one less
                 } else {
                     this.setState({ item: this.props.popularDishes[this.state.index - 1].item }); //setting to previous item
-                    this.setState({ photos: [{url: 'https://www.yorkshirecareequipment.com/wp-content/uploads/2018/09/no-image-available.jpg'}] }); //setting previous photos
+                    this.setState({ photos: [{url: notFound}] }); //setting previous photos
                     this.setState({ index: this.state.index - 1 }); // setting index to one less
                 }
             }
     };
 
     outsideModalHandler(e) {
-        if (e.target.className === 'modal') {
+        if (e.target.className.includes('modal')) {
             this.setState({ modalVisibility: false });
         }
     }
@@ -78,25 +82,25 @@ class PopularDishList extends React.Component {
     render() {
         return (
             <div>
-                <div className="slider" onScroll={this.onChangeHandler} >
+                <Slider className="slider" onScroll={this.onChangeHandler} >
                     {this.props.popularDishes.map((popularDish, index) => (
-                        <div className="slide" id={index}>
+                        <Slide id={index}>
                             <PopularDishEntry item={popularDish.item} photos={popularDish.photos} buttonHandler={this.setView} />
-                        </div>
+                        </Slide>
                     ))}
-                    {(this.state.scrollPosition > 20) ? <button id="goLeft" onClick={this.onClickHandler}></button> : null}
-                    {(this.state.scrollPosition < 1200) ? <button id="goRight" onClick={this.onClickHandler}> </button> : null}
-                </div>
+                    {(this.state.scrollPosition > 20) ? <GoLeft onClick={this.onClickHandler}></GoLeft> : null}
+                    {(this.state.scrollPosition < 1200) ? <GoRight id="goRight" onClick={this.onClickHandler}> </GoRight> : null}
+                </Slider>
                 {(this.state.modalVisibility) ?
                     <Modal>
-                        <div className="modal" onClick={this.outsideModalHandler}>
-                            <button className="close-button" onClick={this.setView}> <div id="closeModal">Close</div> &#x2715; </button>
+                        <ModalStyle className="modal" onClick={this.outsideModalHandler}>
+                            <CloseButton onClick={this.setView}> <CloseFormat id="closeModal">Close</CloseFormat> <div className="close-button">&#x2715;</div> </CloseButton>
                             <PopUpComponent item={this.state.item} photos={this.state.photos} reviews={this.props.popularDishes[this.state.index].reviews} ref={this.popUpComponentElement} />
-                            <div className="itemButtons">
-                                {(this.state.index < this.props.popularDishes.length - 1) ? <button id="nextDish" onClick={this.setView}>{this.props.popularDishes[this.state.index + 1].item.dish_name} <div id="dishArrowRight"></div> </button> : null}
-                                {(this.state.index > 0) ? <button id="previousDish" onClick={this.setView}>{this.props.popularDishes[this.state.index - 1].item.dish_name} <div id="dishArrowLeft"></div> </button> : null}
-                            </div>
-                        </div>
+                            <DishButtons>
+                                {(this.state.index < this.props.popularDishes.length - 1) ? <NextDish id="nextDish" onClick={this.setView}>{this.props.popularDishes[this.state.index + 1].item.dish_name} <DishArrowRight/> </NextDish> : null}
+                                {(this.state.index > 0) ? <LastDish id="previousDish" onClick={this.setView}>{this.props.popularDishes[this.state.index - 1].item.dish_name} <DishArrowLeft/> </LastDish> : null}
+                            </DishButtons>
+                        </ModalStyle>
                     </Modal>
                     : null
                 }

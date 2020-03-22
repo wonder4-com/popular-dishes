@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import $ from 'jquery';
 
 export const SingleReview = styled.div`
     position: relative;

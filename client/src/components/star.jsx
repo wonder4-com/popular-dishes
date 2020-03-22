@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const Star = (props) => {
+const Star = () => {
 
     return (
         <div >

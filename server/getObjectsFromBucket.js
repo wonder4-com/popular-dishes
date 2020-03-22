@@ -19,11 +19,13 @@ const config = require('../config.json');
             Bucket: photoBucket
         }).promise();
 
-        var urlEnd = response.Contents[0].Key;
+        var arrayOfObjects = response.Contents;
 
-        // console.log(response.Contents);
+        for (var i = 0; i < arrayOfObjects.length; i++) {
+            var urlEnd = arrayOfObjects[i].Key;
+            console.log('https://photosthree.s3-' + westRegion + '.amazonaws.com/' + urlEnd);
+        }
 
-        console.log('https://photosthree.s3-' + westRegion + '.amazonaws.com/' + urlEnd);
 
     } catch (e) {
         console.log('our error', e);

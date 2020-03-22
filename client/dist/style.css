@@ -3,12 +3,6 @@
   white-space: normal;
 }
 
-#ComponentTitle {
-  padding-left: 50px;
-  position: relative;
-}
-
-
 body {
   overflow-x: hidden;
 }
@@ -16,8 +10,16 @@ body {
 #modal-root {
   position: relative;
   z-index: 999;
-  }
+}
 
+/* 
+#ComponentTitle {
+  padding-left: 50px;
+  position: relative;
+} */
+
+
+/* 
   .modal {
   background-color: rgba(0,0,0,0.5);
   position: fixed;
@@ -28,9 +30,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  }
+  } */
 
-.slider {
+/* .slider {
   left: 50px;
   float: left;
   width: 615px;
@@ -41,12 +43,12 @@ body {
   -webkit-overflow-scrolling: touch;
    scroll-snap-type: x mandatory;  
    scroll-behavior: smooth;
-}
+} */
 
-.slider::-webkit-scrollbar {
+/* .slider::-webkit-scrollbar {
   display: none;
-}
-
+} */
+/* 
 .slide {
   width: 190.5px;
   flex-shrink: 0;
@@ -59,9 +61,9 @@ body {
 .slide > div {
   scroll-snap-align: start;
   cursor: pointer;
-}
+} */
 
-.PopularDish {
+/* .PopularDish {
   border: .5px solid #e6e6e6;
   border-radius: 7px;
   width: 192px; 
@@ -71,11 +73,6 @@ body {
 
 .PopularDish:hover {
 box-shadow: 12px 0 15px -6px rgba(31, 73, 125, 0.3), -12px 0 8px -6px rgba(31, 73, 125, 0.3);
-}
-
-.PopularDish img{
-  height: 133px;
-  position: relative;
 }
 
 .PopularDishText {
@@ -91,9 +88,9 @@ box-shadow: 12px 0 15px -6px rgba(31, 73, 125, 0.3), -12px 0 8px -6px rgba(31, 7
   font-size: 15px;
   color: black;
   font-weight: bold;
-}
+} */
 
-.PopularDishEntryPrice {
+/* .PopularDishEntryPrice {
   position: relative;
   opacity: none;
   padding: 3px;
@@ -121,14 +118,14 @@ box-shadow: 12px 0 15px -6px rgba(31, 73, 125, 0.3), -12px 0 8px -6px rgba(31, 7
   opacity: 50%;
   border-radius: 4px;
   background-color: black;
-}
+} */
 
-button {
+/* button {
   position: fixed;
   margin-top: 80px;
-}
+} */
 
-#goLeft {
+/* #goLeft {
   left: 40px;
   border: .5px solid #e6e6e6;
   border-radius: 30px;
@@ -138,9 +135,9 @@ button {
   height: 35px;
   width: 35px;
   outline-width: 0;
-}
+} */
 
-#goRight {
+/* #goRight {
   left: 663px;
   border: .5px solid #e6e6e6;
   border-radius: 30px;
@@ -150,13 +147,13 @@ button {
   height: 35px;
   width: 35px;
   outline-width: 0;
-}
+} */
 
-#goRight:hover {
+/* #goRight:hover {
   box-shadow: 12px 0 15px -6px rgba(31, 73, 125, 0.8), -12px 0 8px -6px rgba(31, 73, 125, 0.8);
-}
+} */
 
-.close-button {
+/* .close-button {
   position: fixed;
   font-size: 20px;
   background-color: transparent;
@@ -165,42 +162,33 @@ button {
   margin-left: 530px;
   border: none;
   outline-width: 0;
-}
+} */
 
-#closeModal {
+/* #closeModal {
   position: absolute;
   font-size: 15px;
   margin-top: 2px;
   margin-left: -45px;
   font-weight: normal;
-}
-
+} */
+/* 
 #closeModal:hover {
   text-decoration: underline;
-}
+} */
 
-.photoBox {
+/* .photoBox {
   position: fixed;
-  margin-top: 0px;
   background-color: black;
   height: 600px;
   width: 800px;
+  overflow: hidden;
   margin-left: -700px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
-}
+  align-content: center;
+} */
 
-.cropper {
-  overflow: hidden;
-  height: 700px;
-  width: 800px;
-}
-
-.photo {
-  margin-top: 75px;
-  width: 800px;
-}
-
+/* 
 .rightPhoto {
     position: absolute;
     left: 40px;
@@ -274,24 +262,41 @@ button {
   transform: rotate(157deg);
   position: absolute;
   border-width: 46px 6px 0px 0px;
-}
-
+} */
+/* 
 .photoCaption {
   position: absolute;
-  margin-top: 555px;
+  bottom: 20px;
   margin-left: -675px;
   white-space: normal;
   color: white;
+  width: 650px;
 }
 
-#photoCount {
+.photoCaption2 {
+  background-color: black;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 50px;
   position: absolute;
-  color: white;
-  margin-top: 555px;
-  margin-left: 0px;
+  white-space: normal;
+  bottom: 0px;
+  padding-left: 25px;
+  padding-right: 125px;
+  width: 650px;
+  border-bottom-left-radius: 10px;
 }
 
-.itemDescription {
+
+.caption-box {
+
+} */
+/* 
+#photoCount {
+
+} */
+
+/* .itemDescription {
   position: fixed;
   margin-left: 350px; 
   background-color: white;
@@ -299,17 +304,17 @@ button {
   width: 500px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
-}
+} */
 
-.reviewsBox {
+/* .reviewsBox {
   position: fixed;
   overflow-y: scroll;
   height: 530px;
   width: 355px;
   margin-left: 120px;
   margin-top: 70px;
-}
-
+} */
+/* 
 .reviewsBox button {
   position: relative;
   margin-top: 0px;
@@ -319,13 +324,13 @@ button {
   color: #0073bb;
   margin-left: -7px;
   padding-bottom: 10px;
-}
-
+} */
+/* 
 .reviewsBox button:hover {
   text-decoration: underline;
   cursor: pointer;
-}
-
+} */
+/* 
 .reviewUserName {
   position: relative;
   margin-top: -32.5px;
@@ -341,20 +346,19 @@ button {
   height: 30px;
   border-radius: 3px;
   overflow: hidden;
-  background-image: ;
 }
 
 .reviewCropper img {
   height: 30px;
-}
+} */
 
-.reviewsLength {
+/* .reviewsLength {
   position: relative;
   font-size: 17px;
   font-weight: 600;
-}
+} */
 
-#dishName {
+/* #dishName {
   font-size: 25px;
   font-weight: bold;
 }
@@ -362,17 +366,17 @@ button {
 #dishPrice {
   font-size: 14px;
   font-weight: 600;
-}
+} */
 
-.smallDescriptionBorder {
+/* .smallDescriptionBorder {
   position: relative;
   font-size: 14.5px;
   white-space: normal;
   width: 260px;
   height: 40px;
-}
+} */
 
-#previousDish {
+/* #previousDish {
   position: absolute;
   font-size: 15px;
   color: white;
@@ -381,8 +385,8 @@ button {
   margin-top: 311px;
   border: none;
   outline-width: 0;
-}
-
+} */
+/* 
 #nextDish {
   position: absolute;
   right: -580px;
@@ -392,16 +396,17 @@ button {
   margin-top: 311px;
   border: none;
   outline-width: 0;
-}
+} */
 
-#previousDish:hover {
+/* #previousDish:hover {
   text-decoration: underline;
-}
-#nextDish:hover {
-  text-decoration: underline;
-}
+} */
 
-#dishArrowRight {
+/* #nextDish:hover {
+  text-decoration: underline;
+} */
+
+/* #dishArrowRight {
   position: absolute;
   width: 10px;
   height: 10px;
@@ -421,9 +426,9 @@ button {
   transform: rotate(225deg);
   margin-top: -15px;
   left: -10px
-}
+} */
 
-#allItems {
+/* #allItems {
   margin-top: -36px;
   padding-bottom: 15px;
   left: 550px;
@@ -434,13 +439,13 @@ button {
 
 #allItems:hover {
   text-decoration: underline;
-}
-
+} */
+/* 
 .itemButtons {
   position: fixed;
-}
+} */
 
-.fullMenu {
+/* .fullMenu {
   position: absolute;
   background-color: white;
   width: 75%;
@@ -451,21 +456,21 @@ button {
   left: 12.5%;
   padding: 10px;
   line-break: auto;
-}
+} */
 
-.fullMenu h3 {
+/* .fullMenu h3 {
   margin-top: -3px;
-}
+} */
 
-.menuItem {
+/* .menuItem {
   border-top: 1px solid #e6e6e6;
   padding-left: 10px;
   height: 80px;
   padding-top: 5px;
   padding-bottom: 5px;
-}
+} */
 
-.smallSquarePhoto {
+/* .smallSquarePhoto {
   width: 70px;
   height: 70px;
   overflow: hidden;
@@ -481,63 +486,63 @@ button {
   margin-top: -73px;
   margin-left: 75px;
   font-size: 15px;
-}
+} */
 
-.dish_name {
+/* .dish_name {
   color: #0073bb;
   font-weight: 550;
   font-size: 18px;
 
-}
-
+} */
+/* 
 .dish_name:hover {
   text-decoration: underline;
   cursor: pointer;
-}
+} */
 
-.itemPrice {
+/* .itemPrice {
   margin-left: 90%;
   margin-top: -72px;
   font-size: 15px;
   font-weight: 600;
-}
+} */
 
-.star {
+/* .star {
   fill: #aeaeae;
   height: 15px;
   width: 15px;
-}
+} */
 
-.numberReviews {
+/* .numberReviews {
   margin-top: -16px;
   margin-left: 17px;
   font-size: 13px;
   color: #aeaeae;
-}
-
+} */
+/* 
 .camera {
   margin-top: -15px;
   margin-left: 100px;
   fill: #aeaeae;
   height: 16px;
   width: 16px;
-}
+} */
 
-.numberPhotosSquareDescription {
+/* .numberPhotosSquareDescription {
   margin-top: -15px;
   margin-left: 120px;
   font-size: 13px;
   color: #aeaeae;
-}
+} */
 
-.itemPrice {
+/* .itemPrice {
   margin-top: -55px;
   font-size: 15px;
-}
+} */
 
-.itemDescriptionSquare {
+/* .itemDescriptionSquare {
   padding-bottom: 5px;
-}
+} */
 
 /* .rating-1 {
   height: 18px;
@@ -590,11 +595,11 @@ button {
   position: relative;
 } */
 
-.smallDescription {
+/* .smallDescription {
   position: absolute;
   margin-top: 20px;
   margin-left: 120px;
-}
+} */
 
 /* .tinyPerson {
   position: relative;
