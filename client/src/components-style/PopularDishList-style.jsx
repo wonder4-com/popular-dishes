@@ -8,6 +8,7 @@ export const Slider = styled.div`
     height: 225px;
     display: flex;
     overflow-x: auto;
+    border-bottom: .5px solid lightgray;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;  
     scroll-behavior: smooth;
