@@ -91,16 +91,16 @@ class App extends React.Component {
         // <Star />
         return (
             <AppBody>
-                    {(this.state.doneLoading) ?
+                    {(true) ?
                         <div>
                             <Title>Popular Dishes</Title> 
                             <AllItems onClick={this.showMenu}> View Full Menu </AllItems>
                             <PopularDishList popularDishes={this.state.items} />
                                 {(this.state.visibleMenu) ? <Modal>
                                     <ModalStyle className="modal" onClick={this.outsideModalHandler}>
-                                        <CloseButton className="close-button" onClick={this.showMenu}> <CloseFormat id="closeModal">Close</CloseFormat> &#x2715; </CloseButton>                        
-                                    </ModalStyle>
-                                    <FullMenu restaurant={this.state.restaurant.restaurant_name} items={this.state.items}/>
+                                        <CloseButton className="closeIt" onClick={this.showMenu}> <CloseFormat id="closeModal">Close</CloseFormat> &#x2715; </CloseButton>                        
+                                        <FullMenu restaurant={this.state.restaurant.restaurant_name} items={this.state.items}/>
+                                        </ModalStyle>
                                 </Modal>
                                     : null}
                             

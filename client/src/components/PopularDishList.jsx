@@ -41,7 +41,7 @@ class PopularDishList extends React.Component {
 
     setView(e, item, photos) {
         e.preventDefault();
-            if (e.target.className === "close-button" || e.target.id === "closeModal" || e.target.className.includes("popper")) {
+            if (e.target.className === "closeIt" || e.target.id === "closeModal" || e.target.className.includes("popper")) {
                 this.setState({ item: item || {} }); //setting new item
                 this.setState({ photos: photos || [] }); //setting new photos
                 this.setState({ modalVisibility: !this.state.modalVisibility }); //turning modal visibility to TRUE
@@ -88,13 +88,13 @@ class PopularDishList extends React.Component {
                             <PopularDishEntry item={popularDish.item} photos={popularDish.photos} buttonHandler={this.setView} />
                         </Slide>
                     ))}
-                    {(this.state.scrollPosition > 20) ? <GoLeft onClick={this.onClickHandler}></GoLeft> : null}
-                    {(this.state.scrollPosition < 1200) ? <GoRight id="goRight" onClick={this.onClickHandler}> </GoRight> : null}
                 </Slider>
+                {(this.state.scrollPosition > 20) ? <GoLeft onClick={this.onClickHandler}></GoLeft> : null}
+                {(this.state.scrollPosition < 1200) ? <GoRight id="goRight" onClick={this.onClickHandler}> </GoRight> : null}
                 {(this.state.modalVisibility) ?
                     <Modal>
                         <ModalStyle className="modal" onClick={this.outsideModalHandler}>
-                            <CloseButton onClick={this.setView}> <CloseFormat id="closeModal">Close</CloseFormat> <div className="close-button">&#x2715;</div> </CloseButton>
+                            <CloseButton onClick={this.setView}> <CloseFormat id="closeModal">Close</CloseFormat> <div className="closeIt">&#x2715;</div> </CloseButton>
                             <PopUpComponent item={this.state.item} photos={this.state.photos} reviews={this.props.popularDishes[this.state.index].reviews} ref={this.popUpComponentElement} />
                             <DishButtons>
                                 {(this.state.index < this.props.popularDishes.length - 1) ? <NextDish id="nextDish" onClick={this.setView}>{this.props.popularDishes[this.state.index + 1].item.dish_name} <DishArrowRight/> </NextDish> : null}

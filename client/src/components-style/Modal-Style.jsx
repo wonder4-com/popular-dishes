@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const CloseButton = styled.button`
-    position: fixed;
+    position: absolute;
     font-size: 20px;
     background-color: transparent;
     color: white;

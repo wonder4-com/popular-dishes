@@ -11,13 +11,13 @@ export const Slider = styled.div`
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;  
     scroll-behavior: smooth;
-
     &::-webkit-scrollbar {
         display: none;
     }   
 `;
 
 export const Slide = styled.div`
+    position: relative;
     width: 190.5px;
     flex-shrink: 0;
     height: 90%;
@@ -31,9 +31,11 @@ export const Slide = styled.div`
 `;
 
 export const GoLeft = styled.button`
+    position: absolute;
     left: 40px;
     border: .5px solid #e6e6e6;
     border-radius: 30px;
+    margin-top: 80px;
     background-image: url('/leftarrow.png');
     background-position: 45% 45%;
     background-size: 45px 45px;
@@ -46,7 +48,9 @@ export const GoLeft = styled.button`
 `;
 
 export const GoRight = styled.button`
+    position: absolute;
     left: 663px;
+    margin-top: 80px;
     border: .5px solid #e6e6e6;
     border-radius: 30px;
     background-image: url('/arrow.png');
