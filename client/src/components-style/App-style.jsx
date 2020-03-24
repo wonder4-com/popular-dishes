@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 
 export const AppBody = styled.div`
-    button {
-        position: fixed;
-        margin-top: 80px;
-    };
+
 `;
 
 export const Title = styled.h3`

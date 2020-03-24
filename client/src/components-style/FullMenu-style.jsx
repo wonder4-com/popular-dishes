@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const FullMenuFormat = styled.div`
-    position: absolute;
+    position: fixed;
     background-color: white;
     width: 75%;
     height: 600px;
@@ -11,6 +11,7 @@ export const FullMenuFormat = styled.div`
     left: 12.5%;
     padding: 10px;
     line-break: auto;
+    top: 50px;
     h3 {
         margin-top: -3px;
     };
