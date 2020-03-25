@@ -36,6 +36,7 @@ class PopularDishList extends React.Component {
 
     onChangeHandler(e) {
         e.preventDefault();
+        console.log($('.slider').scrollLeft());
         this.setState({ scrollPosition: $('.slider').scrollLeft() })
     }
 
@@ -90,7 +91,7 @@ class PopularDishList extends React.Component {
                     ))}
                 </Slider>
                 {(this.state.scrollPosition > 20) ? <GoLeft onClick={this.onClickHandler}></GoLeft> : null}
-                {(this.state.scrollPosition < 1200) ? <GoRight id="goRight" onClick={this.onClickHandler}> </GoRight> : null}
+                {(this.state.scrollPosition < 890) ? <GoRight id="goRight" onClick={this.onClickHandler}> </GoRight> : null}
                 {(this.state.modalVisibility) ?
                     <Modal>
                         <ModalStyle className="modal" onClick={this.outsideModalHandler}>
