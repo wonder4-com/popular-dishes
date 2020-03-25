@@ -92,15 +92,15 @@ const makeUser = (imageUrl) => {
 
 const formatUrlWithKey = (object, region) => {
     return 'https://photosthree.s3-' + region + '.amazonaws.com/' + object.Key;
-    return object.Key;
 }
 
 (async function () {
     try {
         aws.config.setPromisesDependency();
         aws.config.update({
-            region: westRegion,
-            arn: 'aws:s3:us-west-1:691981644502:accesspoint/photoswonderfour'
+            accessKeyId: config.aws.accessKey,
+            secretAccessKey: config.aws.secretKey,
+            region: westRegion
         });
 
         const s3 = new aws.S3();
