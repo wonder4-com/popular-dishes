@@ -12,29 +12,30 @@ app.use(bodyParser.json());
 
 app.use('/', express.static(path.join(__dirname, '../client/dist/')))
 
-app.get('/getCompany', (req, res) => {
+
+app.get('/popularDishes/getCompany', (req, res) => {
     var companyId = Math.floor(Math.random() * companyNumber) + 1;
     controller.getCompany(companyId, res);
 })
 
-app.get('/getItems', (req, res) => {
+app.get('/popularDishes/getItems', (req, res) => {
     controller.getDishes(req, res);
 });
 
-app.get('/getPhotos', (req, res) => {
+app.get('/popularDishes/getPhotos', (req, res) => {
     console.log(req.query);
     controller.getPhotos(req, res);
 })
 
-app.get('/arrow.png', (req, res) => {
+app.get('/popularDishes/arrow.png', (req, res) => {
     res.sendFile('/Users/alexchung/Documents/HackReactor2020/popular-dishes/server/arrow.png');
 });
 
-app.get('/leftarrow.png', (req, res) => {
+app.get('/popularDishes/leftarrow.png', (req, res) => {
     res.sendFile('/Users/alexchung/Documents/HackReactor2020/popular-dishes/server/leftarrow.png');
 });
 
-app.get('/getReviews', (req, res) => {
+app.get('/popularDishes/getReviews', (req, res) => {
     controller.getReviews(req, res);
 })
 

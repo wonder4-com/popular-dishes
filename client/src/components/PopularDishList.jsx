@@ -36,7 +36,6 @@ class PopularDishList extends React.Component {
 
     onChangeHandler(e) {
         e.preventDefault();
-        console.log($('.slider').scrollLeft());
         this.setState({ scrollPosition: $('.slider').scrollLeft() })
     }
 

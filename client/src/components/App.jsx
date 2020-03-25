@@ -35,7 +35,7 @@ class App extends React.Component {
     }
 
     getReviews(obj, dish_id) {
-        axios.get('/getReviews', { params: {dish_id: dish_id, numberOfReviews: obj.item.review_count}})
+        axios.get('popularDishes/getReviews', { params: {dish_id: dish_id, numberOfReviews: obj.item.review_count}})
         .then(response => {
             obj.reviews = response.data;
             this.setState({items: this.state.items.concat(obj)})
@@ -43,7 +43,7 @@ class App extends React.Component {
     }
 
     getPhotos(item, dish_id) {
-        axios.get('/getPhotos', { params: { dish_id: dish_id } })
+        axios.get('popularDishes/getPhotos', { params: { dish_id: dish_id } })
             .then(response => {
                 var obj = {}
                 obj.item = item;
@@ -54,7 +54,7 @@ class App extends React.Component {
     }
 
     getItems(number) {
-        axios.get('/getItems', { params: { restaurant_id: number } })
+        axios.get('popularDishes/getItems', { params: { restaurant_id: number } })
             .then((response) => {
                 var items = response.data;
                 var arr = []
@@ -70,7 +70,7 @@ class App extends React.Component {
 
 
     componentDidMount() {
-        axios.get('/getCompany')
+        axios.get('popularDishes/getCompany')
             .then((response) => {
                 this.setState({restaurant: response.data[0]});
                 this.getItems(response.data[0].restaurant_id); // with the restaurant_id get the popular items
