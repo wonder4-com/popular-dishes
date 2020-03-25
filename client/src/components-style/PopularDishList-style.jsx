@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Slider = styled.div`
     left: 50px;
     float: left;
-    width: 615px;
+    width: 950px;
     position: relative;
     height: 225px;
     display: flex;
@@ -50,7 +50,7 @@ export const GoLeft = styled.button`
 
 export const GoRight = styled.button`
     position: absolute;
-    left: 663px;
+    left: 990px;
     margin-top: 80px;
     border: .5px solid #e6e6e6;
     border-radius: 30px;

@@ -3,15 +3,15 @@ import styled from 'styled-components';
 export const FullMenuFormat = styled.div`
     position: fixed;
     background-color: white;
-    width: 75%;
+    width: 1200px;
     height: 600px;
     border-radius: 10px;
     overflow-y: scroll;
     display: inline-block;
-    left: 12.5%;
+    position: relative;
     padding: 10px;
     line-break: auto;
-    top: 50px;
+    top: 10px;
     h3 {
         margin-top: -3px;
     };

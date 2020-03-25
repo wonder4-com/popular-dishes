@@ -100,7 +100,7 @@ class App extends React.Component {
                                     <ModalStyle className="modal" onClick={this.outsideModalHandler}>
                                         <CloseButton className="closeIt" onClick={this.showMenu}> <CloseFormat id="closeModal">Close</CloseFormat> &#x2715; </CloseButton>                        
                                         <FullMenu restaurant={this.state.restaurant.restaurant_name} items={this.state.items}/>
-                                        </ModalStyle>
+                                    </ModalStyle>
                                 </Modal>
                                     : null}
                             
