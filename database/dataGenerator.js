@@ -109,8 +109,6 @@ const formatUrlWithKey = (object, region) => {
             Bucket: photoBucket,
             Prefix: 'Random Foods' // folder names can be changed here
         }).promise();
-
-        console.log(response);
     
             const response2 = await s3.listObjectsV2({
                 Bucket: photoBucket,
