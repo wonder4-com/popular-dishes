@@ -28,11 +28,11 @@ app.get('/popularDishes/getPhotos', (req, res) => {
 })
 
 app.get('/popularDishes/arrow.png', (req, res) => {
-    res.sendFile('/Users/alexchung/Documents/HackReactor2020/popular-dishes/server/arrow.png');
+    res.sendFile();
 });
 
 app.get('/popularDishes/leftarrow.png', (req, res) => {
-    res.sendFile('/Users/alexchung/Documents/HackReactor2020/popular-dishes/server/leftarrow.png');
+    res.sendFile('https://photosthree.s3-us-west-1.amazonaws.com/leftarrow.png');
 });
 
 app.get('/popularDishes/getReviews', (req, res) => {

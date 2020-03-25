@@ -37,7 +37,7 @@ export const GoLeft = styled.button`
     border: .5px solid #e6e6e6;
     border-radius: 30px;
     margin-top: 80px;
-    background-image: url('/popularDishes/leftarrow.png');
+    background-image: url('https://photosthree.s3-us-west-1.amazonaws.com/leftarrow.png');
     background-position: 45% 45%;
     background-size: 45px 45px;
     height: 35px;
@@ -54,7 +54,7 @@ export const GoRight = styled.button`
     margin-top: 80px;
     border: .5px solid #e6e6e6;
     border-radius: 30px;
-    background-image: url('/popularDishes/arrow.png');
+    background-image: url('https://photosthree.s3-us-west-1.amazonaws.com/arrow.png');
     background-position: 45% 40%;
     background-size: 45px 45px;
     height: 35px;
