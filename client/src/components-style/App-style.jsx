@@ -13,7 +13,7 @@ export const Title = styled.h3`
 export const AllItems = styled.div`
     margin-top: -36px;
     padding-bottom: 15px;
-    left: 550px;
+    left: 900px;
     position: relative;
     font-size: 15px;
     color: #0073bb;
