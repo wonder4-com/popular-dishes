@@ -1,7 +1,10 @@
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'password';
+
 DROP DATABASE IF EXISTS PopularDishesList;
 
 CREATE DATABASE PopularDishesList;
-
+-- SELECT host, user
+-- -- FROM mysql.user;
 USE PopularDishesList;
 
 CREATE TABLE Restaurants
@@ -13,6 +16,8 @@ CREATE TABLE Restaurants
     PRIMARY KEY
     (restaurant_id)
 );
+
+-- INSERT INTO Restaurants (restaurant_name) values ('john');
 
     CREATE TABLE PopularDishes
     (
@@ -87,3 +92,6 @@ CREATE TABLE Restaurants
                     (dish_id) REFERENCES PopularDishes
                     (dish_id)  
 );
+
+
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'password';

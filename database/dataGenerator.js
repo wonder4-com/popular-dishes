@@ -2,7 +2,6 @@ const aws = require('aws-sdk');
 const config = require('../config.json');
 const db = require('./index.js');
 const faker = require('faker');
-const axios = require('axios');
 
 // how many companies do we want to be made
 const numberOfCompanies = 10;
@@ -33,7 +32,7 @@ const makeCompany = () => {
             }
         });
     })
-}
+};
 
 // function for making one dish
 const makeDish = (addDish, params) => {
@@ -73,7 +72,7 @@ const makeReview = (reviewParams) => {
             }
         })
     })
-}
+};
 
 //make users
 const makeUser = (imageUrl) => {
@@ -92,7 +91,7 @@ const makeUser = (imageUrl) => {
 
 const formatUrlWithKey = (object, region) => {
     return 'https://photosthree.s3-' + region + '.amazonaws.com/' + object.Key;
-}
+};
 
 (async function () {
     try {
@@ -143,31 +142,29 @@ const formatUrlWithKey = (object, region) => {
                                         var randomObject = arrayOfObjects[Math.floor(Math.random() * arrayOfObjects.length)];
                                         var photoUrl = formatUrlWithKey(randomObject, westRegion);
                                         var photoParams = [photoUrl, faker.lorem.words(), dish_id];
-                                        makePhoto(addPhoto, photoParams)
+                                        makePhoto(addPhoto, photoParams).catch(e => console.log('from the make photo',e))
                                     }
     
                                     for (var k = 0; k < params[3]; k++) {
                                         var imageUrl = formatUrlWithKey(arrayOfProfiles[Math.floor(Math.random() * arrayOfObjects.length)], westRegion);
                                         makeUser(imageUrl)
-                                            .then((response => {
+                                            .then(response => {
                                                 var userid = response.insertId;
                                                 var reviewParams = [userid, faker.date.past(1), Math.ceil(Math.random() * 5), faker.lorem.sentences(), dish_id];
                                                 makeReview(reviewParams)
                                                     .then(() => {
                                                         console.log('reviews have been made');
-                                                    })
-                                        }))
-                                        .catch(err => console.log('user with that username already exists -----------------------------'));
+                                                    }).catch(e => console.log('from the make review', e))
+                                            }).catch(e => console.log('from the make user', e))
                                     }
-                                }
-                                );
+                                }).catch(e => console.log('from the make dish', e));
                         }
-                    })
+                    }).catch(e => console.log('from the make company',e))
             }
     }
-
-     catch (e) {
-        console.log('our error', e);
+    
+    catch (e) {
+        console.log('our error from outside', e);
     }
 
 })();
@@ -228,4 +225,3 @@ const formatUrlWithKey = (object, region) => {
 // // var query = 'SELECT * FROM PopularDishes INNER JOIN Restaurants ON PopularDishes.restaurant = Restaurants.restaurant_id'; // get table of popular dishes and restaurants joined at restaurant id
 
 // module.exports = numberOfCompanies;
-

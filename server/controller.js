@@ -28,6 +28,7 @@ const getCompany = (companyNumber, response) => {
     var query = 'SELECT * FROM Restaurants WHERE restaurant_id = ' + companyNumber;
     db.query(query, (err,data) => {
         if (err) {
+            console.log(err);
             response.status(400).send('bad request');
         } else {
             response.send(data);

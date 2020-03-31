@@ -14,8 +14,8 @@ app.use('/', express.static(path.join(__dirname, '../client/dist/')))
 
 
 app.get('/popularDishes/getCompany', (req, res) => {
-    var companyId = Math.floor(Math.random() * companyNumber) + 1;
-    controller.getCompany(companyId, res);
+    // var companyId = Math.floor(Math.random() * companyNumber) + 1;
+    controller.getCompany(companyNumber, res);
 })
 
 app.get('/popularDishes/getItems', (req, res) => {

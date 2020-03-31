@@ -12,7 +12,7 @@
     "test": "jest",
     "start": "nodemon ./server/index.js",
     "build:react": "webpack -d --watch",
-    "getObjects" : "node ./server/getObjectsFromBucket.js"
+    "seed": "node ./database/dataGenerator.js"
   },
   "repository": {
     "type": "git",
