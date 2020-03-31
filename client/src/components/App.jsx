@@ -32,6 +32,7 @@ class App extends React.Component {
         this.getPhotos = this.getPhotos.bind(this);
         this.showMenu = this.showMenu.bind(this);
         this.outsideModalHandler = this.outsideModalHandler.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     getReviews(obj, dish_id) {
@@ -87,6 +88,10 @@ class App extends React.Component {
         }
     }
 
+    handleKeyPress (e) {
+        if (e.keyCode === 27) this.setState({visibleMenu: false});
+    }
+
     render() {
         // <Star />
         return (
@@ -99,7 +104,7 @@ class App extends React.Component {
                                 {(this.state.visibleMenu) ? <Modal>
                                     <ModalStyle className="modal" onClick={this.outsideModalHandler}>
                                         <CloseButton className="closeIt" onClick={this.showMenu}> <CloseFormat id="closeModal">Close</CloseFormat> &#x2715; </CloseButton>                        
-                                        <FullMenu restaurant={this.state.restaurant.restaurant_name} items={this.state.items}/>
+                                        <FullMenu restaurant={this.state.restaurant.restaurant_name} items={this.state.items} handleKeyPress={this.handleKeyPress}/>
                                         </ModalStyle>
                                 </Modal>
                                     : null}

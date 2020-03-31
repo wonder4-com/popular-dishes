@@ -23,6 +23,7 @@ class PopularDishList extends React.Component {
         this.setView = this.setView.bind(this);
         this.popUpComponentElement = React.createRef();
         this.outsideModalHandler = this.outsideModalHandler.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     onClickHandler(e) {
@@ -40,7 +41,10 @@ class PopularDishList extends React.Component {
     }
 
     setView(e, item, photos) {
-        e.preventDefault();
+        if(e.preventDefault) {
+            e.preventDefault(); 
+        }
+
             if (e.target.className === "closeIt" || e.target.id === "closeModal" || e.target.className.includes("popper")) {
                 this.setState({ item: item || {} }); //setting new item
                 this.setState({ photos: photos || [] }); //setting new photos
@@ -79,6 +83,11 @@ class PopularDishList extends React.Component {
         }
     }
 
+    handleKeyPress(e) {
+        var escapeObj = { target: { value: "", className: "closeIt", id: "closeModal" } };
+        if (e.keyCode === 27) this.setView(escapeObj);
+    }
+
     render() {
         return (
             <div>
@@ -95,7 +104,7 @@ class PopularDishList extends React.Component {
                     <Modal>
                         <ModalStyle className="modal" onClick={this.outsideModalHandler}>
                             <CloseButton onClick={this.setView}> <CloseFormat id="closeModal">Close</CloseFormat> <div className="closeIt">&#x2715;</div> </CloseButton>
-                            <PopUpComponent item={this.state.item} photos={this.state.photos} reviews={this.props.popularDishes[this.state.index].reviews} ref={this.popUpComponentElement} />
+                            <PopUpComponent item={this.state.item} photos={this.state.photos} reviews={this.props.popularDishes[this.state.index].reviews} ref={this.popUpComponentElement} handleKeyPress={this.handleKeyPress}/>
                             <DishButtons>
                                 {(this.state.index < this.props.popularDishes.length - 1) ? <NextDish id="nextDish" onClick={this.setView}>{this.props.popularDishes[this.state.index + 1].item.dish_name} <DishArrowRight/> </NextDish> : null}
                                 {(this.state.index > 0) ? <LastDish id="previousDish" onClick={this.setView}>{this.props.popularDishes[this.state.index - 1].item.dish_name} <DishArrowLeft/> </LastDish> : null}

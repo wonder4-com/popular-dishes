@@ -15,16 +15,25 @@ class PopUpComponent extends React.Component {
         super(props)
         this.photoBoxElement = React.createRef();
         this.resetPhotoBox = this.resetPhotoBox.bind(this);
+        this.handleKeyPress = this.props.handleKeyPress;
     }
 
     resetPhotoBox() {
         this.photoBoxElement.current.resetCurrent();
     }
 
+    componentDidMount() {
+        document.addEventListener("keydown", this.props.handleKeyPress);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener("keydown", this.props.handleKeyPress, false);
+    }
+
     render() {
         return (
             <ItemDescription>
-                <PhotoBox photos={this.props.photos} ref={this.photoBoxElement} />
+                {(this.props.photos) ? <PhotoBox photos={this.props.photos} ref={this.photoBoxElement} /> : null}
                 <SmallDescriptionFormatter>
                         <Name>{this.props.item.dish_name}</Name>
                         <Price>${this.props.item.price}.00</Price>
