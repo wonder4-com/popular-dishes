@@ -11,6 +11,7 @@ class PhotoBox extends React.Component {
         this.onClickHandler = this.onClickHandler.bind(this);
         this.resetCurrent = this.resetCurrent.bind(this);
         this.handleBlackSpace = this.handleBlackSpace.bind(this);
+        this.switchPhotosOnKeyPress = this.switchPhotosOnKeyPress.bind(this);
     }
 
     resetCurrent() {
@@ -18,7 +19,9 @@ class PhotoBox extends React.Component {
     }
 
     onClickHandler(e) {
-        e.preventDefault();
+        if (e.preventDefault) {
+            e.preventDefault();
+        }
         if (e.target.className.includes('button right')) {
             if (this.state.currentPhoto === this.props.photos.length - 1) {
                 this.setState({ currentPhoto: 0 });
@@ -44,6 +47,21 @@ class PhotoBox extends React.Component {
                 return 'tooTall';
             } 
         });
+    }
+
+    componentDidMount() {
+        document.addEventListener("keydown", this.switchPhotosOnKeyPress);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener("keydown", this.switchPhotosOnKeyPress, false);
+    }
+
+    switchPhotosOnKeyPress(e) {
+        var rightObj = { target: { className: "button right" } }
+        var leftObj = { target: { className: "left" } }
+        if (e.keyCode === 39) this.onClickHandler(rightObj);
+        if (e.keyCode === 37) this.onClickHandler(leftObj);
     }
 
     render() {
